@@ -1,0 +1,38 @@
+/*L-desktop*/
+@media (min-device-width: 1600px) {
+    .activite-icon {
+        max-width: 500px;
+        margin: 25px auto; }
+    .activite .call-action {
+        margin-top: 100px; }
+    .activite .call-action a.btnAction {
+        padding: 30px 50px; } }
+/*L-laptops*/
+@media (max-width: 1440px) {
+    .activite-icon {
+        max-width: 500px; } }
+/*laptops/tablets*/
+@media (max-width: 1024px) {
+    .activite-icon {
+        max-width: 500px;
+        margin: 0 auto; } }
+/*tablets*/
+@media (max-width: 768px) {
+    .activite-icon {
+        max-width: 500px !important;
+        margin: 0 auto; } }
+/*Smart phone*/
+@media (max-width: 576px) {
+    .logo h2 {
+        font-size: 1.1rem; }
+    .logo h2.titre-activite {
+        font-size: 1.3rem;
+        text-transform: uppercase; }
+    .logo h3 {
+        font-size: .9rem; }
+    .logo img {
+        width: 100px; }
+    .logo img.activite {
+        width: 125px; } }
+
+/*# sourceMappingURL=responsive.css.map */

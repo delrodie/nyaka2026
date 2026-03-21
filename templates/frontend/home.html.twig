@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block turbo_frame %}
+<turbo-frame id="main-frame">
+    {% block body %}
+        <div class="max-w-sm mx-auto" style="height: 100vh;">
+            <div class="overflow-hidden">
+                <div class="logo">
+                    <div class="logo-icon" data-aos="fade-right" data-aos-easing="ease-in-sine" data-aos-duration="2000">
+                        <img src="{{ asset('images/logo-cvav.png') }}" alt="" class="img-fluid">
+                    </div>
+                    <div class="logo-text" data-aos="fade-left" data-aos-easing="ease-in-sine" data-aos-duration="2000">
+                        <h4>
+                            Coeurs Vaillants Ames Vaillantes
+                        </h4>
+                        <h5>Dicosèse d'Abidjan</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="activite">
+                <div class="activite-icon" data-aos="zoom-in-up" data-aos-easing="ease-in-back" data-aos-duration="3000">
+                    <img src="{{ asset('images/logo-activite.png') }}" alt="" class="img-fluid">
+                </div>
+                <div class="activite-text" data-aos="zoom-out-down" data-aos-easing="ease-in-back" data-aos-duration="3000">
+                    <h3 class="titre">
+                        N'yâkâ Nansi 2026
+                    </h3>
+                    <h6 class="theme">
+                        Protection de l'environnement et de l'enfant.
+                    </h6>
+                    <div class="date">
+                        Du <strong>vendredi 1<sup>er</sup>    </strong> au <strong>dimanche 03 mai 2026</strong>
+                        au <strong>Lycée Classique d'Abidjan / Paroisse Saint Jean de Cocody</strong>
+                    </div>
+
+                </div>
+                <div class="call-action" style="margin-top: 80px;">
+                    <a href="{{ path('app_profil') }}" class="btnAction">
+                        Je participe
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+</turbo-frame>
+{% endblock %}
