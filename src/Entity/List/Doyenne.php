@@ -16,11 +16,15 @@ class Doyenne
     #[ORM\Column(name: 'doyenneNom', length: 100)]
     private string $nom;
 
+    #[ORM\Column(name: 'doyenneCode', length: 100)]
+    private string $code;
+
     #[ORM\ManyToOne(targetEntity: Vicariat::class)]
     #[ORM\JoinColumn(name: 'vicariatId', referencedColumnName: 'vicariatId')]
     private ?Vicariat $vicariat = null;
 
     public function getId(): string { return $this->id; }
+    public function getCode(): string { return $this->code; }
     public function getNom(): string { return $this->nom; }
     public function getVicariat(): ?Vicariat { return $this->vicariat; }
 }

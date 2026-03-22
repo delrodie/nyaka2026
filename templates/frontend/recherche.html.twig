@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block turbo_frame %}
+    <turbo-frame id="main-frame">
+        {% block body %}
+            <div class="max-w-sm mx-auto" data-controller="recherche">
+                <div class="overflow-hidden">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <img src="{{ asset('images/logo-cvav.png') }}" alt="Logo CVAV" class="img-fluid">
+                        </div>
+                        <div class="logo-text">
+                            <h4>Coeurs Vaillants Ames Vaillantes</h4>
+                            <h5>Diocèse d'Abidjan</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="espace inter-font-family px-3" style="margin-top: 100px;">
+                    <div class="text-start">
+                        <h3 class="fw-bold">Recherche de mon identité</h3>
+
+                        <form action="{{ path('app_inscription_resultats') }}" method="GET" class="mt-4" data-turbo="false">
+                            <strong>Mode de recherche</strong>
+                            <div class="mt-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio"
+                                           name="mode" id="rechercheID" value="id" checked
+                                           data-recherche-target="radio"
+                                           data-action="change->recherche#toggle">
+                                    <label class="form-check-label" for="rechercheID">ID Unique</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio"
+                                           name="mode" id="rechercheNom" value="nom"
+                                           data-recherche-target="radio"
+                                           data-action="change->recherche#toggle">
+                                    <label class="form-check-label" for="rechercheNom">Nom & prénoms</label>
+                                </div>
+
+                                {# Zone ID #}
+                                <div class="mt-5" id="zone-rechercheID" data-recherche-target="idZone">
+                                    <div class="form-group">
+                                        <div class="mb-3">
+                                            <label for="IDUnique" class="form-label">ID Unique (adhésion)</label>
+                                            <input type="text" name="matricule" class="form-control form-control-lg rounded-0" id="IDUnique">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {# Zone Nom + Doyenné #}
+                                <div class="mt-5 d-none" id="zone-rechercheNom" data-recherche-target="nomZone">
+                                    <div class="form-group">
+                                        <div class="mb-3">
+                                            <label for="doyenne" class="form-label">Doyenné</label>
+                                            <select name="doyenne" id="doyenne"
+                                                    class="form-select form-control-lg rounded-0"
+                                                    data-recherche-target="doyenneSelect">
+                                                <option value="">Chargement...</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="nom" class="form-label">Nom et prénoms</label>
+                                            <input type="text" name="nom" class="form-control form-control-lg rounded-0" id="nom">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary rounded-0">Rechercher</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </turbo-frame>
+{% endblock %}

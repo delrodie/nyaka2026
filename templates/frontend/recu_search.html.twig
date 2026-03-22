@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ participant.nom|title }}  - {{ participant.matricule}} {% endblock %}
+
+{% block body %}
+    <div class="overflow-hidden">
+        <div class="logo">
+            <div class="logo-icon" data-aos="fade-right" data-aos-easing="ease-in-sine" data-aos-duration="2000">
+                <img src="{{ absolute_url(asset('images/logo-cvav.png')) }}" alt="" class="img-fluid activite">
+            </div>
+            <div class="logo-text" data-aos="fade-left" data-aos-easing="ease-in-sine" data-aos-duration="2000">
+                <h2 class="titre-activite">
+                    N'yâkâ Nansi 2026
+                </h2>
+                <h3>Je participe à cette édition</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="formulaire" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="2000">
+            <div class="text-center mt-5 mb-5" data-aos="zoom-out" data-aos-duration="3000" data-aos-easing="ease-in-back">
+                <h2 class="titre">Mon reçu</h2>
+            </div>
+        </div>
+        <div class="row mt-5 recu">
+            <div class="col-lg-5 col-md-6 col-12 offset-lg-3 offset-md-3">
+                <div class="row">
+                    <div class="col-4 libelle">ID Unique</div>
+                    <div class="col-8 matricule">: {{ participant.matricule }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Nom</div>
+                    <div class="col-8 valeur">: {{ participant.nomPrenoms }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Genre</div>
+                    <div class="col-8 valeur">: {{ participant.genre }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Nom déclarant</div>
+                    <div class="col-8 valeur">: {{ participant.declarantNom }}</div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Contact</div>
+                    <div class="col-8 valeur">: {{ participant.declarantContact }}</div>
+                </div>
+                <hr>
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Vicariat</div>
+                    <div class="col-8 valeur">: {{ participant.section.doyenne.vicariat.nom }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Doyenne</div>
+                    <div class="col-8 valeur">: {{ participant.section.doyenne.nom }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Doyenne</div>
+                    <div class="col-8 valeur">: {{ participant.section.paroisse }}</div>
+                </div>
+                <hr>
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Grade</div>
+                    <div class="col-8 valeur">: {{ participant.grade.nom }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Tee-shirt</div>
+                    <div class="col-8 valeur">: OUI </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4 libelle">Tee-shirt</div>
+                    <div class="col-8 valeur">: {{ participant.taille }} </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-4 libelle">Montant payé</div>
+                    <div class="col-8 montant">: &nbsp;{{ participant.montant|number_format(0,'','.') }} FCFA</div>
+                </div>
+                <div class="row mt-5 text-end">
+                    <div class="col-12">
+                        <em>inscription effectuée le {{ participant.waveWhenCreated|date('d-m-Y H:i:s') }}</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-5">
+        <a href="" class="btn btn-outline-danger btn-sm">Backoffice</a>
+        <a href="{{ absolute_url(path('app_home')) }}" id="btnRetour" class="btn btn-outline-secondary btn-sm">Retour</a>
+        <button id="print-button" class="btn btn-outline-primary btn-sm">Imprimer</button>
+    </div>
+
+    <div id="loader-overlay" style="display: none">
+        <div class="loader"></div>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        @media print {
+            #print-button, #btnRetour {
+                display: none;
+            }
+        }
+    </style>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        $(document).ready(function() {
+            $('#print-button').on('click', function() {
+                window.print(); // Déclenche la boîte de dialogue d'impression du navigateur
+            }});
+        });
+    </script>
+{% endblock %}

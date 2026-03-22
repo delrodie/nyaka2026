@@ -16,9 +16,10 @@ class Grade
     #[ORM\Column(name: 'gradeNom', length: 100)]
     private string $nom;
 
-    #[ORM\Column(name: 'gradeCode', length: 20)]
-    private string $code;
+    #[ORM\Column(name: 'gradePosition', length: 20)]
+    private string $position;
 
     public function getId(): string { return $this->id; }
     public function getNom(): string { return $this->nom; }
+    public function getPosition(): string { return $this->position; }
 }

@@ -16,6 +16,28 @@ class AdhesionRepository extends ServiceEntityRepository
         parent::__construct($registry, Adhesion::class);
     }
 
+    public function findByDoyenneAndMembre(string $membre, string $doyenne)
+    {
+        return $this->query()
+            ->where('a.nomPrenoms LIKE :membre')
+            ->andWhere('d.id = :doyenne')
+            ->setParameter('membre', '%'.$membre.'%')
+            ->setParameter('doyenne', $doyenne)
+            ->getQuery()->getResult()
+            ;
+    }
+
+    public function query()
+    {
+        return $this->createQueryBuilder('a')
+            ->addSelect('g', 's', 'd', 'v')
+            ->innerJoin('a.grade', 'g')
+            ->innerJoin('a.section', 's')
+            ->innerJoin('s.doyenne', 'd')
+            ->innerJoin('d.vicariat', 'v')
+            ;
+    }
+
     //    /**
     //     * @return Adhesion[] Returns an array of Adhesion objects
     //     */
