@@ -2,8 +2,32 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}NYAKA NANSI 2026{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}N'yâkâ Nansi 2026 - fête diocèsaine 2026 des CV-AV{% endblock %}</title>
         <link rel="icon" href="{{ asset('images/logo-cvav.png') }}">
+        <link rel="shortcut icon" href="{{ absolute_url(asset('images/logo-cvav.png')) }}">
+
+        <meta name="keywords" content="CVAV, diocese, Abidjan, Catholique, N'yaka">
+        <meta name="description" content="Protection de l'environnement et de l'enfant." />
+        <link rel="canonical" href="{{ absolute_url(path('app_home')) }}" />
+{#        <link rel="next" href="{{ absolute_url(path('app_api_participation_section')) }}" />#}
+
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:locale:alternate" content="en_US" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="N'yâkâ Nansi 2026 - fête diocèsaine 2026 des CVAV" />
+        <meta property="og:description" content="Protection de l'environnement et de l'enfant." />
+        <meta property="og:url" content="{{ absolute_url(path('app_home')) }}" />
+        <meta property="og:site_name" content="CV-AV diocèse d'Abidjan " />
+        <meta property="article:modified_time" content="2026-03-20T11:08:30+00:00" />
+        <meta property="og:image" content="{{ absolute_url(asset('images/logo-cvav.png')) }}" />
+        <meta property="og:image:type" content="image/svg+xml" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:description" content="Protection de l'environnement et de l'enfant."/>
+        <meta name="twitter:title" content="N'yâkâ Nansi 2026 - fête diocèsaine 2026 des CV-AV"/>
+        <meta name="twitter:domain" content="CV-AV diocèse d'Abidjan"/>
+        <meta name="twitter:image:src" content="{{ absolute_url(asset('images/logo-cvav.png')) }}"/>
+
         {% block stylesheets %}
         {% endblock %}
 
