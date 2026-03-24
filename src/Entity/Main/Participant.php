@@ -4,6 +4,8 @@ namespace App\Entity\Main;
 
 use App\Repository\Main\ParticipantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Main\Doyenne;
+use App\Entity\Main\Vicariat;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -348,6 +350,16 @@ class Participant
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function getDoyenne(): ?Doyenne
+    {
+        return $this->section?->getDoyenne();
+    }
+
+    public function getVicariat(): ?Vicariat
+    {
+        return $this->section?->getDoyenne()?->getVicariat();
     }
 
     #[ORM\PrePersist]
