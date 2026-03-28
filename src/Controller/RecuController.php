@@ -36,7 +36,7 @@ class RecuController extends AbstractController
             if ($wave !== true) return new Response ($wave);
         }
         return $this->render('frontend/recu_search.html.twig',[
-            '$participant' => $participant,
+            'participant' => $participant,
         ]);
     }
 
