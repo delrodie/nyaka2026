@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ participant.nom|title }}  - {{ participant.matricule}} {% endblock %}
+{% block title %} {{ participant.nomPrenoms|title }}  - {{ participant.matricule}} {% endblock %}
 
 {% block body %}
     <div class="overflow-hidden">
@@ -57,7 +57,7 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-4 libelle">Doyenne</div>
-                    <div class="col-8 valeur">: {{ participant.section.paroisse }}</div>
+                    <div class="col-8 valeur">: {{ participant.section.nom }}</div>
                 </div>
                 <hr>
                 <div class="row mt-2">
