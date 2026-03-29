@@ -55,7 +55,12 @@
                     <table class="r-table">
                         <tr>
                             <th>Nom et prénoms</th>
-                            <td><strong>{{ participant.nomPrenoms }}</strong></td>
+                            <td colspan="3"><strong>{{ participant.nomPrenoms }}</strong></td>
+
+                        </tr>
+                        <tr>
+                            <th>Matricule</th>
+                            <td>{{ participant.matricule }}</td>
                             <th>Genre</th>
                             <td>{{ participant.genre }}</td>
                         </tr>
@@ -145,9 +150,10 @@
            VARIABLES
            ════════════════════════════════════════════════════ */
         :root {
-            --primary:   #1b5e34;
-            --primary-light: #e8f5ee;
-            --accent:    #f0a500;
+            --primary:   #00acef;
+            --primary-light: rgb(234 241 245);
+            /*--accent:    #f0a500;*/
+            --accent: #fff;
             --text:      #1a1a1a;
             --muted:     #6b7280;
             --border:    #d1d5db;
@@ -212,15 +218,15 @@
             letter-spacing: 0.1em;
         }
         .r-doc-id {
-            font-size: 14px;
-            font-weight: 800;
+            font-size: 10px;
+            font-weight: bold;
             color: var(--accent);
             letter-spacing: 0.06em;
         }
 
         /* ── Bandeau titre ── */
         .r-banner {
-            background: var(--accent);
+            background: var(--muted);
             color: #fff;
             text-align: center;
             font-size: 10px;
@@ -380,7 +386,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{-- html2canvas + jsPDF en direct (sans html2pdf) pour un contrôle total du scaling --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
