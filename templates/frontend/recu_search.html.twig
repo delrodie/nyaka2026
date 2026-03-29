@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ participant.nomPrenoms|title }}  - {{ participant.matricule}} {% endblock %}
+{% block title %} {{ participant.nomPrenoms|title }} - {{ participant.matricule }} {% endblock %}
 
 {% block body %}
+
     <div class="overflow-hidden">
         <div class="logo">
             <div class="logo-icon">
@@ -17,79 +18,100 @@
 
     <div class="container">
         <div class="formulaire">
-            <div class="text-center mt-5 mb-5">
+            <div class="text-center mt-5 mb-4">
                 <h2 class="titre">Mon reçu</h2>
             </div>
         </div>
 
+
         <div id="recu-wrapper">
 
-            <div class="recu-header text-center mb-3">
-                <img id="recu-logo"
-                     src="{{ absolute_url(asset('images/logo-cvav.png')) }}"
-                     alt="Logo CVAV"
-                     style="max-height: 60px; margin-bottom: 6px;">
-                <h2 style="margin: 4px 0 0;">N'yâkâ Nansi 2026</h2>
-                <p style="margin: 2px 0 0; font-style: italic;">Je participe à cette édition</p>
-                <hr style="margin: 8px 0;">
-                <h3 style="margin: 0;">Mon reçu</h3>
-            </div>
-
-            <div class="recu">
-                <div class="recu-inner">
-                    <div class="recu-row">
-                        <span class="libelle">ID Unique</span>
-                        <span class="matricule">: {{ participant.matricule }}</span>
-                    </div>
-                    <div class="recu-row">
-                        <span class="libelle">Nom et prénoms</span>
-                        <span class="valeur">: {{ participant.nomPrenoms }}</span>
-                    </div>
-                    <div class="recu-row">
-                        <span class="libelle">Genre</span>
-                        <span class="valeur">: {{ participant.genre }}</span>
-                    </div>
-                    <div class="recu-row">
-                        <span class="libelle">Nom déclarant</span>
-                        <span class="valeur">: {{ participant.declarantNom }}</span>
-                    </div>
-                    <div class="recu-row">
-                        <span class="libelle">Contact déclarant</span>
-                        <span class="valeur">: {{ participant.declarantContact }}</span>
-                    </div>
-                    <hr>
-                    <div class="recu-row">
-                        <span class="libelle">Vicariat</span>
-                        <span class="valeur">: {{ participant.section.doyenne.vicariat.nom }}</span>
-                    </div>
-                    <div class="recu-row">
-                        <span class="libelle">Doyenné</span>
-                        <span class="valeur">: {{ participant.section.doyenne.nom }}</span>
-                    </div>
-                    <div class="recu-row">
-                        <span class="libelle">Section</span>
-                        <span class="valeur">: {{ participant.section.nom }}</span>
-                    </div>
-                    <hr>
-                    <div class="recu-row">
-                        <span class="libelle">Grade</span>
-                        <span class="valeur">: {{ participant.grade.nom }}</span>
-                    </div>
-                    <div class="recu-row">
-                        <span class="libelle">Taille tee-shirt</span>
-                        <span class="valeur">: {{ participant.taille }}</span>
-                    </div>
-                    <div class="recu-row recu-row--montant">
-                        <span class="libelle">Montant payé</span>
-                        <span class="montant">: {{ participant.montant|number_format(0,'','.') }} FCFA</span>
-                    </div>
-                    <div class="recu-row recu-row--date">
-                        <em>Inscrit le {{ participant.waveWhenCreated|date('d-m-Y H:i:s') }}</em>
+            <div class="recu-header">
+                <div class="recu-header-top">
+                    <img id="recu-logo"
+                         src="{{ absolute_url(asset('images/logo-cvav.png')) }}"
+                         alt="Logo CVAV">
+                    <div class="recu-header-text">
+                        <strong>N'yâkâ Nansi 2026</strong>
+                        <span>Je participe à cette édition</span>
                     </div>
                 </div>
+                <div class="recu-titre-doc">REÇU DE PARTICIPATION</div>
+            </div>
+
+            <div class="recu-body">
+
+                <div class="recu-section">
+                    <div class="recu-section-title">Participant</div>
+                    <div class="recu-grid">
+                        <div class="recu-field recu-field--full">
+                            <span class="lbl">ID Unique</span>
+                            <span class="val val--id">{{ participant.matricule }}</span>
+                        </div>
+                        <div class="recu-field recu-field--full">
+                            <span class="lbl">Nom et prénoms</span>
+                            <span class="val">{{ participant.nomPrenoms }}</span>
+                        </div>
+                        <div class="recu-field">
+                            <span class="lbl">Genre</span>
+                            <span class="val">{{ participant.genre }}</span>
+                        </div>
+                        <div class="recu-field">
+                            <span class="lbl">Grade</span>
+                            <span class="val">{{ participant.grade.nom }}</span>
+                        </div>
+                        <div class="recu-field">
+                            <span class="lbl">Taille tee-shirt</span>
+                            <span class="val">{{ participant.taille }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recu-section">
+                    <div class="recu-section-title">Déclarant</div>
+                    <div class="recu-grid">
+                        <div class="recu-field recu-field--full">
+                            <span class="lbl">Nom</span>
+                            <span class="val">{{ participant.declarantNom }}</span>
+                        </div>
+                        <div class="recu-field recu-field--full">
+                            <span class="lbl">Contact</span>
+                            <span class="val">{{ participant.declarantContact }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recu-section">
+                    <div class="recu-section-title">Localisation</div>
+                    <div class="recu-grid">
+                        <div class="recu-field recu-field--full">
+                            <span class="lbl">Vicariat</span>
+                            <span class="val">{{ participant.section.doyenne.vicariat.nom }}</span>
+                        </div>
+                        <div class="recu-field">
+                            <span class="lbl">Doyenné</span>
+                            <span class="val">{{ participant.section.doyenne.nom }}</span>
+                        </div>
+                        <div class="recu-field">
+                            <span class="lbl">Section</span>
+                            <span class="val">{{ participant.section.nom }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recu-paiement">
+                    <div class="recu-paiement-label">Montant payé</div>
+                    <div class="recu-paiement-montant">{{ participant.montant|number_format(0,'','.') }} FCFA</div>
+                </div>
+
+                <div class="recu-footer">
+                    Inscrit le {{ participant.waveWhenCreated|date('d-m-Y à H:i') }}
+                </div>
+
             </div>
 
         </div>
+
     </div>
 
     <div class="text-center mt-4" id="action-buttons">
@@ -101,64 +123,139 @@
     <div id="loader-overlay" style="display:none;">
         <div class="loader"></div>
     </div>
+
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
     <style>
-        /* ── Styles de la page ── */
-        .recu {
-            background: white;
-            padding: 12px;
-        }
-        .recu-inner {
-            font-size: 0.88rem;
-        }
-        .recu-row {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 6px;
-        }
-        .recu-row .libelle {
-            flex: 0 0 130px;
-            font-weight: 600;
-            color: #444;
-        }
-        .recu-row .valeur,
-        .recu-row .matricule,
-        .recu-row .montant {
-            flex: 1;
-        }
-        .recu-row--montant .montant {
-            font-weight: 700;
-            color: #1a6e2e;
-        }
-        .recu-row--date {
-            margin-top: 10px;
-            justify-content: flex-end;
-            font-size: 0.78rem;
-            color: #666;
+
+        /* ───────────────────────────────────────────────────
+           STYLES COMMUNS (page web + capture PDF/impression)
+           ─────────────────────────────────────────────────── */
+
+        /* Le wrapper est dimensionné exactement en A6 (397 × 559 px à 96 dpi)
+           pour que la capture html2canvas soit déjà à la bonne taille. */
+        #recu-wrapper {
+            width: 397px;
+            min-height: 559px;
+            max-height: 559px;
+            overflow: hidden;
+            box-sizing: border-box;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin: 0 auto;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 8.5pt;
+            color: #222;
         }
 
-        /* En-tête du reçu : caché sur la page web normale */
+        /* En-tête du reçu caché sur la page web */
         .recu-header {
             display: none;
         }
 
-        /* ══════════════════════════════════════════════
-           @media print — Format A6
-           ══════════════════════════════════════════════ */
+        /* Corps du reçu */
+        .recu-body {
+            padding: 10px 14px 8px;
+        }
+
+        /* Sections */
+        .recu-section {
+            margin-bottom: 7px;
+        }
+        .recu-section-title {
+            font-size: 7pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #888;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 2px;
+            margin-bottom: 4px;
+        }
+
+        /* Grille des champs : 2 colonnes */
+        .recu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px 10px;
+        }
+        .recu-field {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+        }
+        .recu-field--full {
+            grid-column: 1 / -1;
+        }
+        .recu-field .lbl {
+            font-size: 6.5pt;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .recu-field .val {
+            font-size: 8.5pt;
+            color: #111;
+            font-weight: 500;
+        }
+        .recu-field .val--id {
+            font-weight: 700;
+            color: #1a6e2e;
+            font-size: 9pt;
+            letter-spacing: 0.06em;
+        }
+
+        /* Paiement */
+        .recu-paiement {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f0f7f2;
+            border: 1px solid #b2d8bc;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin-top: 6px;
+        }
+        .recu-paiement-label {
+            font-size: 7.5pt;
+            font-weight: 600;
+            color: #444;
+        }
+        .recu-paiement-montant {
+            font-size: 12pt;
+            font-weight: 800;
+            color: #1a6e2e;
+        }
+
+        /* Pied */
+        .recu-footer {
+            text-align: right;
+            font-size: 6.5pt;
+            color: #aaa;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* ───────────────────────────────────────────────────
+           @media print — Format A6 une seule page
+           ─────────────────────────────────────────────────── */
         @media print {
-            /* ✅ Définir le format A6 */
             @page {
                 size: A6 portrait;
-                margin: 10mm;
+                margin: 5mm;
             }
 
-            /* Masquer ce qui ne doit pas s'imprimer */
-            #print-button, #btnRetour, #pdf-button,
+            /* Masquer tout sauf le wrapper */
+            body > *:not(.container),
             #action-buttons, .logo, .formulaire,
             #loader-overlay, nav, header, footer {
+                display: none !important;
+            }
+            .container > *:not(#recu-wrapper) {
                 display: none !important;
             }
 
@@ -170,24 +267,22 @@
                 animation: none !important;
             }
 
+            /* ✅ Le wrapper occupe toute la page A6 */
+            #recu-wrapper {
+                width: 100% !important;
+                min-height: auto !important;
+                max-height: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
             /* ✅ Afficher l'en-tête du reçu (logo + titre) */
             .recu-header {
                 display: block !important;
-            }
-
-            /* Pleine largeur */
-            #recu-wrapper, .recu, .recu-inner {
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-
-            /* Adapter la taille du texte au format A6 */
-            .recu-inner {
-                font-size: 9pt;
-            }
-            .recu-row .libelle {
-                flex: 0 0 100px;
             }
         }
     </style>
@@ -199,97 +294,93 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
-            // ✅ FIX LOGO : pré-convertir le logo en base64 dès le chargement de la page
-            // Cela contourne les restrictions CORS de html2canvas
+            // ── Pré-charger le logo en base64 (contourne les restrictions CORS de html2canvas) ──
             var logoBase64 = null;
             var logoEl = document.getElementById('recu-logo');
-
             if (logoEl) {
                 fetch(logoEl.src)
-                    .then(function (res) { return res.blob(); })
+                    .then(function (r) { return r.blob(); })
                     .then(function (blob) {
                         var reader = new FileReader();
-                        reader.onloadend = function () {
-                            logoBase64 = reader.result; // stocké pour la capture PDF
-                        };
+                        reader.onloadend = function () { logoBase64 = reader.result; };
                         reader.readAsDataURL(blob);
                     })
-                    .catch(function () {
-                        console.warn('Logo non convertible en base64.');
-                    });
+                    .catch(function () { console.warn('Logo : conversion base64 échouée.'); });
             }
 
             // ── Impression native ──
-            var printBtn = document.getElementById('print-button');
-            if (printBtn) {
-                printBtn.addEventListener('click', function () {
-                    window.print();
-                });
-            }
+            document.getElementById('print-button').addEventListener('click', function () {
+                window.print();
+            });
 
             // ── Exportation PDF ──
-            var pdfBtn = document.getElementById('pdf-button');
-            if (pdfBtn) {
-                pdfBtn.addEventListener('click', function () {
+            document.getElementById('pdf-button').addEventListener('click', function () {
 
-                    var element = document.getElementById('recu-wrapper');
-                    var loader  = document.getElementById('loader-overlay');
-                    if (loader) loader.style.display = 'flex';
+                var element = document.getElementById('recu-wrapper');
+                var loader  = document.getElementById('loader-overlay');
+                if (loader) loader.style.display = 'flex';
 
-                    // ✅ Format A6 : 10.5 cm × 14.8 cm
-                    var options = {
-                        margin: [0.8, 0.8, 0.8, 0.8],
-                        filename: 'Recu_{{ participant.matricule }}.pdf',
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: {
-                            scale: 2,
-                            useCORS: true,
-                            allowTaint: false,
-                            logging: false,
-                            onclone: function (clonedDoc) {
+                var options = {
+                    // Marges réduites pour maximiser l'espace sur A6
+                    margin: [0.5, 0.5, 0.5, 0.5],
+                    filename: 'Recu_{{ participant.matricule }}.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: {
+                        // scale 1 car le wrapper est déjà dimensionné pour l'A6
+                        scale: 1,
+                        useCORS: true,
+                        allowTaint: false,
+                        logging: false,
+                        // Largeur de capture = largeur A6 en px (397)
+                        width: 397,
+                        windowWidth: 397,
+                        onclone: function (clonedDoc) {
 
-                                // ✅ Injecter le logo base64 dans le clone avant la capture
-                                var clonedLogo = clonedDoc.getElementById('recu-logo');
-                                if (clonedLogo) {
-                                    if (logoBase64) {
-                                        clonedLogo.src = logoBase64;
-                                    } else {
-                                        // Si le fetch a échoué, masquer l'image pour éviter une icône cassée
-                                        clonedLogo.style.display = 'none';
-                                    }
-                                }
+                            // Injecter le logo en base64
+                            var cl = clonedDoc.getElementById('recu-logo');
+                            if (cl) { cl.src = logoBase64 || ''; }
 
-                                // Afficher l'en-tête (logo + titre) dans le PDF
-                                clonedDoc.querySelectorAll('.recu-header').forEach(function (el) {
-                                    el.style.display = 'block';
-                                });
+                            // Afficher l'en-tête du reçu (logo + titre)
+                            clonedDoc.querySelectorAll('.recu-header').forEach(function (el) {
+                                el.style.display = 'block';
+                            });
 
-                                // Neutraliser AOS
-                                clonedDoc.querySelectorAll('[data-aos]').forEach(function (el) {
-                                    el.removeAttribute('data-aos');
-                                    el.style.opacity    = '1';
-                                    el.style.transform  = 'none';
-                                    el.style.transition = 'none';
-                                });
+                            // Neutraliser AOS
+                            clonedDoc.querySelectorAll('[data-aos]').forEach(function (el) {
+                                el.removeAttribute('data-aos');
+                                el.style.opacity    = '1';
+                                el.style.transform  = 'none';
+                                el.style.transition = 'none';
+                            });
+
+                            // S'assurer que le wrapper est pleine largeur dans le clone
+                            var wrapper = clonedDoc.getElementById('recu-wrapper');
+                            if (wrapper) {
+                                wrapper.style.width    = '397px';
+                                wrapper.style.maxHeight = 'none';
+                                wrapper.style.overflow = 'visible';
+                                wrapper.style.border   = 'none';
                             }
-                        },
-                        // ✅ Format A6
-                        jsPDF: { unit: 'cm', format: [10.5, 14.8], orientation: 'portrait' }
-                    };
+                        }
+                    },
+                    // ✅ Format A6 : 10.5 × 14.8 cm
+                    jsPDF: { unit: 'cm', format: [10.5, 14.8], orientation: 'portrait' },
+                    // ✅ Forcer une seule page (pas de coupure automatique)
+                    pagebreak: { mode: 'avoid-all' }
+                };
 
-                    html2pdf()
-                        .set(options)
-                        .from(element)
-                        .save()
-                        .then(function () {
-                            if (loader) loader.style.display = 'none';
-                        })
-                        .catch(function (err) {
-                            console.error('Erreur PDF :', err);
-                            if (loader) loader.style.display = 'none';
-                        });
-                });
-            }
+                html2pdf()
+                    .set(options)
+                    .from(element)
+                    .save()
+                    .then(function () {
+                        if (loader) loader.style.display = 'none';
+                    })
+                    .catch(function (err) {
+                        console.error('Erreur PDF :', err);
+                        if (loader) loader.style.display = 'none';
+                    });
+            });
         });
     </script>
 {% endblock %}
