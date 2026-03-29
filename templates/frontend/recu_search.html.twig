@@ -5,13 +5,11 @@
 {% block body %}
     <div class="overflow-hidden">
         <div class="logo">
-            <div class="logo-icon" >
+            <div class="logo-icon">
                 <img src="{{ absolute_url(asset('images/logo-cvav.png')) }}" alt="" class="img-fluid activite">
             </div>
             <div class="logo-text">
-                <h2 class="titre-activite">
-                    N'yâkâ Nansi 2026
-                </h2>
+                <h2 class="titre-activite">N'yâkâ Nansi 2026</h2>
                 <h3>Je participe à cette édition</h3>
             </div>
         </div>
@@ -19,81 +17,88 @@
 
     <div class="container">
         <div class="formulaire">
-            <div class="text-center mt-5 mb-5" >
+            <div class="text-center mt-5 mb-5">
                 <h2 class="titre">Mon reçu</h2>
             </div>
         </div>
 
         <div id="recu-wrapper">
-            <div class="recu-title text-center mb-4">
-                <h2>Mon reçu</h2>
+
+            <div class="recu-header text-center mb-3">
+                <img id="recu-logo"
+                     src="{{ absolute_url(asset('images/logo-cvav.png')) }}"
+                     alt="Logo CVAV"
+                     style="max-height: 60px; margin-bottom: 6px;">
+                <h2 style="margin: 4px 0 0;">N'yâkâ Nansi 2026</h2>
+                <p style="margin: 2px 0 0; font-style: italic;">Je participe à cette édition</p>
+                <hr style="margin: 8px 0;">
+                <h3 style="margin: 0;">Mon reçu</h3>
             </div>
-            <div class="row mt-5 recu">
-                <div class="col-lg-5 col-md-6 col-12 offset-lg-3 offset-md-3">
-                    <div class="row">
-                        <div class="col-4 libelle">ID Unique</div>
-                        <div class="col-8 matricule">: {{ participant.matricule }}</div>
+
+            <div class="recu">
+                <div class="recu-inner">
+                    <div class="recu-row">
+                        <span class="libelle">ID Unique</span>
+                        <span class="matricule">: {{ participant.matricule }}</span>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-4 libelle">Nom</div>
-                        <div class="col-8 valeur">: {{ participant.nomPrenoms }}</div>
+                    <div class="recu-row">
+                        <span class="libelle">Nom et prénoms</span>
+                        <span class="valeur">: {{ participant.nomPrenoms }}</span>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-4 libelle">Genre</div>
-                        <div class="col-8 valeur">: {{ participant.genre }}</div>
+                    <div class="recu-row">
+                        <span class="libelle">Genre</span>
+                        <span class="valeur">: {{ participant.genre }}</span>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-4 libelle">Nom déclarant</div>
-                        <div class="col-8 valeur">: {{ participant.declarantNom }}</div>
+                    <div class="recu-row">
+                        <span class="libelle">Nom déclarant</span>
+                        <span class="valeur">: {{ participant.declarantNom }}</span>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-4 libelle">Contact</div>
-                        <div class="col-8 valeur">: {{ participant.declarantContact }}</div>
-                    </div>
-                    <hr>
-                    <div class="row mt-2">
-                        <div class="col-4 libelle">Vicariat</div>
-                        <div class="col-8 valeur">: {{ participant.section.doyenne.vicariat.nom }}</div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-4 libelle">Doyenné</div>
-                        <div class="col-8 valeur">: {{ participant.section.doyenne.nom }}</div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-4 libelle">Section</div>
-                        <div class="col-8 valeur">: {{ participant.section.nom }}</div>
+                    <div class="recu-row">
+                        <span class="libelle">Contact déclarant</span>
+                        <span class="valeur">: {{ participant.declarantContact }}</span>
                     </div>
                     <hr>
-                    <div class="row mt-2">
-                        <div class="col-4 libelle">Grade</div>
-                        <div class="col-8 valeur">: {{ participant.grade.nom }}</div>
+                    <div class="recu-row">
+                        <span class="libelle">Vicariat</span>
+                        <span class="valeur">: {{ participant.section.doyenne.vicariat.nom }}</span>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-4 libelle">Taille tee-shirt</div>
-                        <div class="col-8 valeur">: {{ participant.taille }} </div>
+                    <div class="recu-row">
+                        <span class="libelle">Doyenné</span>
+                        <span class="valeur">: {{ participant.section.doyenne.nom }}</span>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-4 libelle">Montant payé</div>
-                        <div class="col-8 montant">: &nbsp;{{ participant.montant|number_format(0,'','.') }} FCFA</div>
+                    <div class="recu-row">
+                        <span class="libelle">Section</span>
+                        <span class="valeur">: {{ participant.section.nom }}</span>
                     </div>
-                    <div class="row mt-5 text-end">
-                        <div class="col-12">
-                            <em>inscription effectuée le {{ participant.waveWhenCreated|date('d-m-Y H:i:s') }}</em>
-                        </div>
+                    <hr>
+                    <div class="recu-row">
+                        <span class="libelle">Grade</span>
+                        <span class="valeur">: {{ participant.grade.nom }}</span>
+                    </div>
+                    <div class="recu-row">
+                        <span class="libelle">Taille tee-shirt</span>
+                        <span class="valeur">: {{ participant.taille }}</span>
+                    </div>
+                    <div class="recu-row recu-row--montant">
+                        <span class="libelle">Montant payé</span>
+                        <span class="montant">: {{ participant.montant|number_format(0,'','.') }} FCFA</span>
+                    </div>
+                    <div class="recu-row recu-row--date">
+                        <em>Inscrit le {{ participant.waveWhenCreated|date('d-m-Y H:i:s') }}</em>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 
-    <div class="text-center mt-5" id="action-buttons">
+    <div class="text-center mt-4" id="action-buttons">
         <a href="{{ absolute_url(path('app_home')) }}" id="btnRetour" class="btn btn-outline-secondary btn-sm">Retour</a>
         <button id="print-button" class="btn btn-outline-primary btn-sm">Imprimer</button>
         <button id="pdf-button" class="btn btn-outline-danger btn-sm">Exporter en PDF</button>
     </div>
 
-    <div id="loader-overlay" style="display: none">
+    <div id="loader-overlay" style="display:none;">
         <div class="loader"></div>
     </div>
 {% endblock %}
@@ -101,32 +106,63 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
-        /* Style normal */
+        /* ── Styles de la page ── */
         .recu {
             background: white;
-            padding: 20px;
+            padding: 12px;
+        }
+        .recu-inner {
+            font-size: 0.88rem;
+        }
+        .recu-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        .recu-row .libelle {
+            flex: 0 0 130px;
+            font-weight: 600;
+            color: #444;
+        }
+        .recu-row .valeur,
+        .recu-row .matricule,
+        .recu-row .montant {
+            flex: 1;
+        }
+        .recu-row--montant .montant {
+            font-weight: 700;
+            color: #1a6e2e;
+        }
+        .recu-row--date {
+            margin-top: 10px;
+            justify-content: flex-end;
+            font-size: 0.78rem;
+            color: #666;
         }
 
-        .recu-title {
-            display: none; /* Caché en mode normal, visible uniquement dans le PDF/impression */
+        /* En-tête du reçu : caché sur la page web normale */
+        .recu-header {
+            display: none;
         }
 
-        /* =====================================================
-           ✅ CORRECTION 2 : @media print complet et robuste
-           ===================================================== */
+        /* ══════════════════════════════════════════════
+           @media print — Format A6
+           ══════════════════════════════════════════════ */
         @media print {
-            /* Masquer les éléments de navigation */
-            #print-button,
-            #btnRetour,
-            #pdf-button,
-            #action-buttons,
-            .logo,
-            .formulaire,
-            #loader-overlay {
+            /* ✅ Définir le format A6 */
+            @page {
+                size: A6 portrait;
+                margin: 10mm;
+            }
+
+            /* Masquer ce qui ne doit pas s'imprimer */
+            #print-button, #btnRetour, #pdf-button,
+            #action-buttons, .logo, .formulaire,
+            #loader-overlay, nav, header, footer {
                 display: none !important;
             }
 
-            /* ✅ FIX AOS : forcer la visibilité de tous les éléments animés */
+            /* Neutraliser les animations AOS */
             [data-aos] {
                 opacity: 1 !important;
                 transform: none !important;
@@ -134,34 +170,24 @@
                 animation: none !important;
             }
 
-            /* ✅ FIX BOOTSTRAP : pleine largeur à l'impression */
-            .col-lg-5,
-            .col-md-6,
-            .col-12 {
-                width: 100% !important;
-                max-width: 100% !important;
-                flex: 0 0 100% !important;
-            }
-
-            /* ✅ FIX OFFSET : supprimer les marges Bootstrap */
-            .offset-lg-3,
-            .offset-md-3 {
-                margin-left: 0 !important;
-            }
-
-            /* Afficher le titre du reçu */
-            .recu-title {
+            /* ✅ Afficher l'en-tête du reçu (logo + titre) */
+            .recu-header {
                 display: block !important;
             }
 
-            .recu {
+            /* Pleine largeur */
+            #recu-wrapper, .recu, .recu-inner {
+                width: 100% !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                width: 100% !important;
             }
 
-            #recu-wrapper {
-                width: 100% !important;
+            /* Adapter la taille du texte au format A6 */
+            .recu-inner {
+                font-size: 9pt;
+            }
+            .recu-row .libelle {
+                flex: 0 0 100px;
             }
         }
     </style>
@@ -171,10 +197,29 @@
     {{ parent() }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
-        // ✅ Utilisation de vanilla JS pour ne pas dépendre uniquement de jQuery
         document.addEventListener('DOMContentLoaded', function () {
 
-            // --- Impression native ---
+            // ✅ FIX LOGO : pré-convertir le logo en base64 dès le chargement de la page
+            // Cela contourne les restrictions CORS de html2canvas
+            var logoBase64 = null;
+            var logoEl = document.getElementById('recu-logo');
+
+            if (logoEl) {
+                fetch(logoEl.src)
+                    .then(function (res) { return res.blob(); })
+                    .then(function (blob) {
+                        var reader = new FileReader();
+                        reader.onloadend = function () {
+                            logoBase64 = reader.result; // stocké pour la capture PDF
+                        };
+                        reader.readAsDataURL(blob);
+                    })
+                    .catch(function () {
+                        console.warn('Logo non convertible en base64.');
+                    });
+            }
+
+            // ── Impression native ──
             var printBtn = document.getElementById('print-button');
             if (printBtn) {
                 printBtn.addEventListener('click', function () {
@@ -182,58 +227,54 @@
                 });
             }
 
-            // --- Exportation PDF ---
+            // ── Exportation PDF ──
             var pdfBtn = document.getElementById('pdf-button');
             if (pdfBtn) {
                 pdfBtn.addEventListener('click', function () {
 
-                    // ✅ CORRECTION 3 : capturer le wrapper complet (titre + données)
                     var element = document.getElementById('recu-wrapper');
-
-                    // Afficher le loader
-                    var loader = document.getElementById('loader-overlay');
+                    var loader  = document.getElementById('loader-overlay');
                     if (loader) loader.style.display = 'flex';
 
+                    // ✅ Format A6 : 10.5 cm × 14.8 cm
                     var options = {
-                        margin: [1, 1, 1, 1],
+                        margin: [0.8, 0.8, 0.8, 0.8],
                         filename: 'Recu_{{ participant.matricule }}.pdf',
                         image: { type: 'jpeg', quality: 0.98 },
                         html2canvas: {
                             scale: 2,
                             useCORS: true,
+                            allowTaint: false,
                             logging: false,
                             onclone: function (clonedDoc) {
-                                // ✅ FIX AOS dans le clone PDF
-                                var animatedElements = clonedDoc.querySelectorAll('[data-aos]');
-                                animatedElements.forEach(function (el) {
-                                    el.removeAttribute('data-aos');
-                                    el.style.opacity = '1';
-                                    el.style.transform = 'none';
-                                    el.style.transition = 'none';
-                                });
 
-                                // ✅ FIX BOOTSTRAP dans le clone PDF : pleine largeur
-                                var colEl = clonedDoc.querySelectorAll('.col-lg-5, .col-md-6');
-                                colEl.forEach(function (el) {
-                                    el.style.width = '100%';
-                                    el.style.maxWidth = '100%';
-                                    el.style.flex = '0 0 100%';
-                                });
+                                // ✅ Injecter le logo base64 dans le clone avant la capture
+                                var clonedLogo = clonedDoc.getElementById('recu-logo');
+                                if (clonedLogo) {
+                                    if (logoBase64) {
+                                        clonedLogo.src = logoBase64;
+                                    } else {
+                                        // Si le fetch a échoué, masquer l'image pour éviter une icône cassée
+                                        clonedLogo.style.display = 'none';
+                                    }
+                                }
 
-                                // ✅ FIX OFFSET dans le clone PDF
-                                var offsetEl = clonedDoc.querySelectorAll('.offset-lg-3, .offset-md-3');
-                                offsetEl.forEach(function (el) {
-                                    el.style.marginLeft = '0';
-                                });
-
-                                // Afficher le titre du reçu dans le PDF
-                                var titles = clonedDoc.querySelectorAll('.recu-title');
-                                titles.forEach(function (el) {
+                                // Afficher l'en-tête (logo + titre) dans le PDF
+                                clonedDoc.querySelectorAll('.recu-header').forEach(function (el) {
                                     el.style.display = 'block';
+                                });
+
+                                // Neutraliser AOS
+                                clonedDoc.querySelectorAll('[data-aos]').forEach(function (el) {
+                                    el.removeAttribute('data-aos');
+                                    el.style.opacity    = '1';
+                                    el.style.transform  = 'none';
+                                    el.style.transition = 'none';
                                 });
                             }
                         },
-                        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+                        // ✅ Format A6
+                        jsPDF: { unit: 'cm', format: [10.5, 14.8], orientation: 'portrait' }
                     };
 
                     html2pdf()
@@ -241,7 +282,6 @@
                         .from(element)
                         .save()
                         .then(function () {
-                            // Masquer le loader une fois terminé
                             if (loader) loader.style.display = 'none';
                         })
                         .catch(function (err) {

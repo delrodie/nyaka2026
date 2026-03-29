@@ -1,0 +1,254 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ participant.nomPrenoms|title }}  - {{ participant.matricule}} {% endblock %}
+
+{% block body %}
+    <div class="overflow-hidden">
+        <div class="logo">
+            <div class="logo-icon" >
+                <img src="{{ absolute_url(asset('images/logo-cvav.png')) }}" alt="" class="img-fluid activite">
+            </div>
+            <div class="logo-text">
+                <h2 class="titre-activite">
+                    N'yâkâ Nansi 2026
+                </h2>
+                <h3>Je participe à cette édition</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="formulaire">
+            <div class="text-center mt-5 mb-5" >
+                <h2 class="titre">Mon reçu</h2>
+            </div>
+        </div>
+
+        <div id="recu-wrapper">
+            <div class="recu-title text-center mb-4">
+                <h2>Mon reçu</h2>
+            </div>
+            <div class="row mt-5 recu">
+                <div class="col-lg-5 col-md-6 col-12 offset-lg-3 offset-md-3">
+                    <div class="row">
+                        <div class="col-4 libelle">ID Unique</div>
+                        <div class="col-8 matricule">: {{ participant.matricule }}</div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 libelle">Nom et prénoms</div>
+                        <div class="col-8 valeur">: {{ participant.nomPrenoms }}</div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 libelle">Genre</div>
+                        <div class="col-8 valeur">: {{ participant.genre }}</div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 libelle">Nom déclarant</div>
+                        <div class="col-8 valeur">: {{ participant.declarantNom }}</div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 libelle">Contact déclarant</div>
+                        <div class="col-8 valeur">: {{ participant.declarantContact }}</div>
+                    </div>
+                    <hr>
+                    <div class="row mt-2">
+                        <div class="col-4 libelle">Vicariat</div>
+                        <div class="col-8 valeur">: {{ participant.section.doyenne.vicariat.nom }}</div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 libelle">Doyenné</div>
+                        <div class="col-8 valeur">: {{ participant.section.doyenne.nom }}</div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 libelle">Section</div>
+                        <div class="col-8 valeur">: {{ participant.section.nom }}</div>
+                    </div>
+                    <hr>
+                    <div class="row mt-2">
+                        <div class="col-4 libelle">Grade</div>
+                        <div class="col-8 valeur">: {{ participant.grade.nom }}</div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4 libelle">Taille tee-shirt</div>
+                        <div class="col-8 valeur">: {{ participant.taille }} </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-4 libelle">Montant payé</div>
+                        <div class="col-8 montant">: &nbsp;{{ participant.montant|number_format(0,'','.') }} FCFA</div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-4 libelle">Date inscription</div>
+                        <div class="col-8 montant">: &nbsp;{{ participant.waveWhenCreated|date('d-m-Y H:i:s') }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5" id="action-buttons">
+        <a href="{{ absolute_url(path('app_home')) }}" id="btnRetour" class="btn btn-outline-secondary btn-sm">Retour</a>
+        <button id="print-button" class="btn btn-outline-primary btn-sm">Imprimer</button>
+        <button id="pdf-button" class="btn btn-outline-danger btn-sm">Exporter en PDF</button>
+    </div>
+
+    <div id="loader-overlay" style="display: none">
+        <div class="loader"></div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Style normal */
+        .recu {
+            background: white;
+            padding: 20px;
+        }
+
+        .recu-title {
+            display: none; /* Caché en mode normal, visible uniquement dans le PDF/impression */
+        }
+
+        /* =====================================================
+           ✅ CORRECTION 2 : @media print complet et robuste
+           ===================================================== */
+        @media print {
+            /* Masquer les éléments de navigation */
+            #print-button,
+            #btnRetour,
+            #pdf-button,
+            #action-buttons,
+            .logo,
+            .formulaire,
+            #loader-overlay {
+                display: none !important;
+            }
+
+            /* ✅ FIX AOS : forcer la visibilité de tous les éléments animés */
+            [data-aos] {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+            }
+
+            /* ✅ FIX BOOTSTRAP : pleine largeur à l'impression */
+            .col-lg-5,
+            .col-md-6,
+            .col-12 {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 100% !important;
+            }
+
+            /* ✅ FIX OFFSET : supprimer les marges Bootstrap */
+            .offset-lg-3,
+            .offset-md-3 {
+                margin-left: 0 !important;
+            }
+
+            /* Afficher le titre du reçu */
+            .recu-title {
+                display: block !important;
+            }
+
+            .recu {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+
+            #recu-wrapper {
+                width: 100% !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        // ✅ Utilisation de vanilla JS pour ne pas dépendre uniquement de jQuery
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // --- Impression native ---
+            var printBtn = document.getElementById('print-button');
+            if (printBtn) {
+                printBtn.addEventListener('click', function () {
+                    window.print();
+                });
+            }
+
+            // --- Exportation PDF ---
+            var pdfBtn = document.getElementById('pdf-button');
+            if (pdfBtn) {
+                pdfBtn.addEventListener('click', function () {
+
+                    // ✅ CORRECTION 3 : capturer le wrapper complet (titre + données)
+                    var element = document.getElementById('recu-wrapper');
+
+                    // Afficher le loader
+                    var loader = document.getElementById('loader-overlay');
+                    if (loader) loader.style.display = 'flex';
+
+                    var options = {
+                        margin: [1, 1, 1, 1],
+                        filename: 'Recu_{{ participant.matricule }}.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: {
+                            scale: 2,
+                            useCORS: true,
+                            logging: false,
+                            onclone: function (clonedDoc) {
+                                // ✅ FIX AOS dans le clone PDF
+                                var animatedElements = clonedDoc.querySelectorAll('[data-aos]');
+                                animatedElements.forEach(function (el) {
+                                    el.removeAttribute('data-aos');
+                                    el.style.opacity = '1';
+                                    el.style.transform = 'none';
+                                    el.style.transition = 'none';
+                                });
+
+                                // ✅ FIX BOOTSTRAP dans le clone PDF : pleine largeur
+                                var colEl = clonedDoc.querySelectorAll('.col-lg-5, .col-md-6');
+                                colEl.forEach(function (el) {
+                                    el.style.width = '100%';
+                                    el.style.maxWidth = '100%';
+                                    el.style.flex = '0 0 100%';
+                                });
+
+                                // ✅ FIX OFFSET dans le clone PDF
+                                var offsetEl = clonedDoc.querySelectorAll('.offset-lg-3, .offset-md-3');
+                                offsetEl.forEach(function (el) {
+                                    el.style.marginLeft = '0';
+                                });
+
+                                // Afficher le titre du reçu dans le PDF
+                                var titles = clonedDoc.querySelectorAll('.recu-title');
+                                titles.forEach(function (el) {
+                                    el.style.display = 'block';
+                                });
+                            }
+                        },
+                        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+                    };
+
+                    html2pdf()
+                        .set(options)
+                        .from(element)
+                        .save()
+                        .then(function () {
+                            // Masquer le loader une fois terminé
+                            if (loader) loader.style.display = 'none';
+                        })
+                        .catch(function (err) {
+                            console.error('Erreur PDF :', err);
+                            if (loader) loader.style.display = 'none';
+                        });
+                });
+            }
+        });
+    </script>
+{% endblock %}
