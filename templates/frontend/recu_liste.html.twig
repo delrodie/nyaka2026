@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="max-w-sm mx-auto p-3">
+        {{ include('frontend/_header.html.twig') }}
+
+        <div class="text-center inter-font-family mb-4 mt-5">
+            <h3 class="fw-bold">{{ adhesions ? "Liste des participants" : "Oups!!" }}</h3>
+            <p class="text-muted">{{ adhesions ? "Veuille sélectionner le profil concerné pour imprimer le reçu." : "Votre numero de téléphone n'est associé à aucune inscription" }}</p>
+        </div>
+
+        <div class="list-group inter-font-family rounded-0">
+            {% for adhesion in adhesions %}
+                <a href="{{ adhesion.wavePaymentStatus == "succeeded" ? path('app_recu_show', {'matricule': adhesion.slug}) : "#" }}"
+                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3">
+                    <div>
+                        <div class="fw-bold text-uppercase">{{ adhesion.nomPrenoms }}</div>
+                        <small class="text-muted">
+                            ID: {{ adhesion.matricule ? adhesion.matricule : "ND" }} | {{ adhesion.section ? adhesion.section.nom : 'Sans section' }}
+
+                            {% if adhesion.wavePaymentStatus == "succeeded" %}
+                                <span class="badge text-bg-success">Succès</span>
+                            {% elseif adhesion.wavePaymentStatus == 'processing' %}
+                                <span class="badge text-bg-primary">Traitement encours</span>
+                            {% elseif adhesion.wavePaymentStatus == 'cancelled' %}
+                                <span class="badge text-bg-danger">Annulé</span>
+                            {% else %}
+                                <span class="badge text-bg-dark">Aucun paiement</span>
+                            {% endif %}
+                        </small>
+                    </div>
+
+                </a>
+            {% else %}
+                <div class="my-5">
+                    <h3 class="text-center fst-italic text-danger">Aucun profil trouvé</h3>
+                </div>
+
+            {% endfor %}
+        </div>
+
+        <div class="mt-5 text-center d-grid gap-2">
+            <a href="{{ path('app_recu_recherche_liste') }}" class="btn btn-outline-secondary text-decoration-none">
+                <i class="fas fa-arrow-left"></i> Recommencer la recherche
+            </a>
+        </div>
+    </div>
+{% endblock %}

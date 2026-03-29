@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block turbo_frame %}
+    <turbo-frame id="main-frame">
+        {% block body %}
+            <div class="max-w-sm mx-auto">
+                {{ include('frontend/_header.html.twig') }}
+
+                <div class="espace inter-font-family px-3" style="margin-top: 100px;">
+                    <div class="text-start">
+                        <h3 class="fw-bold">Liste de mes participants</h3>
+
+                        <form action="{{ path('app_recu_recherche_liste') }}" method="POST" class="mt-4" data-turbo="false">
+                            <div class="mt-3">
+
+
+                                {# Zone ID #}
+                                <div class="mt-5" >
+                                    <div class="form-group">
+                                        <div class="mb-3">
+                                            <label for="IDUnique" class="form-label">Contact déclarant</label>
+                                            <input type="tel" name="telephone" class="form-control form-control-lg rounded-0" id="telephone" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="mt-5">
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary rounded-0">Rechercher</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </turbo-frame>
+{% endblock %}

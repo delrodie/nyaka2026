@@ -22,6 +22,26 @@ class RecuController extends AbstractController
     {
     }
 
+    #[Route('/', name: 'app_recu_recherche_liste', methods: ['GET','POST'])]
+    public function liste(Request $request)
+    {
+        $emMain = $this->doctrine->getManager('default');
+        $reqTelephone = $request->request->get('telephone');
+
+        if ($reqTelephone){
+            $participants = $emMain->getRepository(Participant::class)->findBy([
+                'declarantContact' => $reqTelephone,
+//                'wavePaymentStatus' => 'succeeded'
+            ]);
+
+            return $this->render('frontend/recu_liste.html.twig', [
+                'adhesions' => $participants,
+            ]);
+        }
+
+        return $this->render('frontend/recherche_recu_liste.html.twig');
+    }
+
     #[Route('/recherche/r', name: 'app_recu_recherche', methods: ['GET','POST'])]
     public function recherche(Request $request): Response
     {
