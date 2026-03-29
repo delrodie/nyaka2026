@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - Echec de paiement {% endblock %}
+{% block title %}{{ parent() }} - Recu non trouvé {% endblock %}
 
 {% block turbo_frame %}
     <turbo-frame id="main-frame">
@@ -14,15 +14,14 @@
                 <div class="activite-text" >
                     <h3 class="titre">Oups!!</h3>
                     <h6 class="theme">
-                        Désolé, {{ participant.nomPrenoms }} ! <br>
-                        Ton reçu n'est pas encore disponible. Si tu as été débité alors contacte les administrateurs.
-
+                        Les informations renseignées n'ont pas été trouvées.
+                        Si tu penses que c'est une erreur, contacte les administrateurs diocésains.
                     </h6>
 
 
                 </div>
                 <div class="call-action" style="margin-top: 80px;">
-                    <a href="{{ absolute_url(path('app_profil')) }}" class="btnAction">
+                    <a href="{{ absolute_url(path('app_recu_recherche')) }}" class="btnAction">
                         Je reprends
                     </a>
                 </div>

@@ -34,16 +34,11 @@ class EchecController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/recu', name: 'app_echec_recu', methods: ['GET'])]
-    public function recu($slug): Response
+    #[Route('/', name: 'app_echec_recu', methods: ['GET'])]
+    public function recu(): Response
     {
         $emMain = $this->doctrine->getManager('default');
 
-        $participant = $emMain->getRepository(Participant::class)->findOneBy([
-            'slug' => $slug
-        ]);
-        return $this->render('frontend/recu_echec.html.twig',[
-            'participant' => $participant,
-        ]);
+        return $this->render('frontend/recu_echec.html.twig');
     }
 }

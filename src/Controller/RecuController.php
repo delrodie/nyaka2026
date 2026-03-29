@@ -32,10 +32,13 @@ class RecuController extends AbstractController
 
             $participant = $emMain->getRepository(Participant::class)->findOneBy(['matricule' => $reqMatricule]);
 
+            if (!$participant){
+                return $this->redirectToRoute('app_echec_recu');
+            }
 
             if ($participant && $participant->getWaveCheckoutStatus() !== 'complete'){
 
-                $wave = $this->wave($participant);
+                $wave = $this->wave($participant); //dd($wave);
                 if ($wave !== true) return $this->redirectToRoute('app_echec_recu',['slug' => $participant->getSlug()]);
             }
 
