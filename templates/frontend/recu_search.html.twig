@@ -65,11 +65,7 @@
                     <div class="col-8 valeur">: {{ participant.grade.nom }}</div>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-4 libelle">Tee-shirt</div>
-                    <div class="col-8 valeur">: OUI </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-4 libelle">Tee-shirt</div>
+                    <div class="col-4 libelle">Taille tee-shirt</div>
                     <div class="col-8 valeur">: {{ participant.taille }} </div>
                 </div>
                 <div class="row mt-3">
@@ -85,9 +81,9 @@
         </div>
     </div>
     <div class="text-center mt-5">
-        <a href="" class="btn btn-outline-danger btn-sm">Backoffice</a>
         <a href="{{ absolute_url(path('app_home')) }}" id="btnRetour" class="btn btn-outline-secondary btn-sm">Retour</a>
         <button id="print-button" class="btn btn-outline-primary btn-sm">Imprimer</button>
+        <button id="pdf-button" class="btn btn-outline-danger btn-sm">Exporter en PDF</button>
     </div>
 
     <div id="loader-overlay" style="display: none">
@@ -98,21 +94,34 @@
     {{ parent() }}
     <style>
         @media print {
-            #print-button, #btnRetour {
-                display: none;
+            #print-button, #btnRetour, #pdf-button {
+                display: none !important;
             }
         }
     </style>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
-
         $(document).ready(function() {
+            // Correction de l'impression
             $('#print-button').on('click', function() {
-                window.print(); // Déclenche la boîte de dialogue d'impression du navigateur
-            }
+                window.print();
+            });
+
+            // Ajout de l'exportation PDF
+            $('#pdf-button').on('click', function() {
+                const element = document.querySelector('.recu'); // Cible la zone du reçu
+                const options = {
+                    margin: 1,
+                    filename: 'Recu_{{ participant.matricule }}.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+                };
+                html2pdf().set(options).from(element).save();
+            });
         });
     </script>
 {% endblock %}
