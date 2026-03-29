@@ -93,10 +93,26 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+        /* Masquer les éléments inutiles sur le PDF et à l'impression */
         @media print {
-            #print-button, #btnRetour, #pdf-button {
+            #print-button, #btnRetour, #pdf-button, .logo, .formulaire, hr {
                 display: none !important;
             }
+            .recu {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            /* Supprimer le décalage (offset) de Bootstrap à l'impression */
+            .offset-lg-3, .offset-md-3 {
+                margin-left: 0 !important;
+            }
+        }
+
+        /* Style spécifique pour le rendu html2pdf */
+        .recu {
+            background: white;
+            padding: 20px;
         }
     </style>
 {% endblock %}
@@ -105,21 +121,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Correction de l'impression
+            // Impression native
             $('#print-button').on('click', function() {
                 window.print();
             });
 
-            // Ajout de l'exportation PDF
+            // Exportation PDF
             $('#pdf-button').on('click', function() {
-                const element = document.querySelector('.recu'); // Cible la zone du reçu
+                const element = document.querySelector('.recu');
+
+                // Options pour optimiser le rendu
                 const options = {
-                    margin: 1,
+                    margin: [1, 1, 1, 1],
                     filename: 'Recu_{{ participant.matricule }}.pdf',
                     image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
+                    html2canvas: {
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        // TRÈS IMPORTANT : désactive les animations pendant la capture
+                        onclone: (clonedDoc) => {
+                            const animatedElements = clonedDoc.querySelectorAll('[data-aos]');
+                            animatedElements.forEach(el => {
+                                el.removeAttribute('data-aos');
+                                el.style.opacity = '1';
+                                el.style.transform = 'none';
+                            });
+                        }
+                    },
                     jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
                 };
+
                 html2pdf().set(options).from(element).save();
             });
         });
