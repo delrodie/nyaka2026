@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Main\Participant;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -19,6 +20,32 @@ class RecuController extends AbstractController
         private ManagerRegistry $doctrine
     )
     {
+    }
+
+    #[Route('/recherche/r', name: 'app_recu_recherche', methods: ['GET','POST'])]
+    public function recherche(Request $request): Response
+    {
+        $emMain = $this->doctrine->getManager('default');
+        $reqMatricule = $request->request->get('matricule'); //dd($reqMatricule);
+
+        if ($reqMatricule) {
+
+            $participant = $emMain->getRepository(Participant::class)->findOneBy(['matricule' => $reqMatricule]);
+
+
+            if ($participant && $participant->getWaveCheckoutStatus() !== 'complete'){
+
+                $wave = $this->wave($participant);
+                if ($wave !== true) return $this->redirectToRoute('app_echec_recu',['matricule' => $reqMatricule]);
+            }
+
+            return $this->render('frontend/recu_search.html.twig',[
+                'participant' => $participant,
+            ]);
+        }
+
+        return $this->render('frontend/recherche_recu.html.twig');
+
     }
 
     #[Route('/{matricule}', name: 'app_recu_show', methods: ['GET'])]

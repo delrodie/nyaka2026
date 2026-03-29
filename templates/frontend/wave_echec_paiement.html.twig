@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Echec de paiement {% endblock %}
+
+{% block body %}
+    {{ include('frontend/_header.html.twig') }}
+
+    <div class="activite">
+        <div class="activite-icon" data-aos="zoom-in-up" data-aos-easing="ease-in-back" data-aos-duration="3000">
+            <img src="{{ absolute_url(asset('images/sad.png')) }}" alt="" class="img-fluid">
+        </div>
+        <div class="activite-text" data-aos="zoom-out-down" data-aos-easing="ease-in-back" data-aos-duration="3000">
+            <h3 class="titre">Oups!!</h3>
+            <h6 class="theme">
+                Désolé, {{ participant.nomPrenoms }} ! <br>
+                Une erreur est subvenue lors du paiement de ton inscription.
+
+            </h6>
+            {#            <div class="date">#}
+            {#                Du <strong>samedi 18</strong> au <strong>lundi 20 mai 2024</strong>#}
+            {#                à la paroisse <strong>Notre Dame du Perpétuel Secours de Treichville.</strong>#}
+            {#            </div>#}
+
+        </div>
+        <div class="call-action" style="margin-top: 80px;">
+            <a href="{{ absolute_url(path('app_profil')) }}" class="btnAction">
+                Je reprends
+            </a>
+        </div>
+    </div>
+{% endblock %}

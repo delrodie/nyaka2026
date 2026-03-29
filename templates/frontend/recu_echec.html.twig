@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Echec de paiement {% endblock %}
+
+{% block turbo_frame %}
+    <turbo-frame id="main-frame">
+        {% block body %}
+            {{ include('frontend/_header.html.twig') }}
+
+            <div class="activite">
+                <div class="activite-icon" >
+                    <img src="{{ absolute_url(asset('images/sad.png')) }}" alt="" class="img-fluid">
+                </div>
+                <div class="activite-text" >
+                    <h3 class="titre">Oups!!</h3>
+                    <h6 class="theme">
+                        Désolé, {{ participant.nomPrenoms }} ! <br>
+                        Ton reçu n'est pas encore disponible. Si tu as été débité alors contacte les administrateurs.
+
+                    </h6>
+
+
+                </div>
+                <div class="call-action" style="margin-top: 80px;">
+                    <a href="{{ absolute_url(path('app_profil')) }}" class="btnAction">
+                        Je reprends
+                    </a>
+                </div>
+            </div>
+        {% endblock %}
+    </turbo-frame>
+
+{% endblock %}
