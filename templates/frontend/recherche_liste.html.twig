@@ -2,17 +2,7 @@
 
 {% block body %}
     <div class="max-w-sm mx-auto p-3">
-        <div class="overflow-hidden">
-            <div class="logo">
-                <div class="logo-icon">
-                    <img src="{{ asset('images/logo-cvav.png') }}" alt="Logo CVAV" class="img-fluid">
-                </div>
-                <div class="logo-text">
-                    <h4>Coeurs Vaillants Ames Vaillantes</h4>
-                    <h5>Diocèse d'Abidjan</h5>
-                </div>
-            </div>
-        </div>
+        {{ include('frontend/_header.html.twig') }}
 
         <div class="text-center inter-font-family mb-4 mt-5">
             <h3 class="fw-bold">Plusieurs comptes trouvés</h3>

@@ -4,19 +4,7 @@
 <turbo-frame id="main-frame">
     {% block body %}
         <div class="max-w-sm mx-auto" style="height: 100vh;">
-            <div class="overflow-hidden">
-                <div class="logo">
-                    <div class="logo-icon" data-aos="fade-right" data-aos-easing="ease-in-sine" data-aos-duration="2000">
-                        <img src="{{ asset('images/logo-cvav.png') }}" alt="" class="img-fluid">
-                    </div>
-                    <div class="logo-text" data-aos="fade-left" data-aos-easing="ease-in-sine" data-aos-duration="2000">
-                        <h4>
-                            Coeurs Vaillants Ames Vaillantes
-                        </h4>
-                        <h5>Dicosèse d'Abidjan</h5>
-                    </div>
-                </div>
-            </div>
+            {{ include('frontend/_header.html.twig') }}
             <div class="activite">
                 <div class="activite-icon" data-aos="zoom-in-up" data-aos-easing="ease-in-back" data-aos-duration="3000">
                     <img src="{{ asset('images/logo-activite.png') }}" alt="" class="img-fluid">

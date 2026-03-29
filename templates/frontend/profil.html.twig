@@ -4,19 +4,7 @@
 <turbo-frame id="main-frame">
     {% block body %}
         <div class="max-w-sm mx-auto">
-            <div class="overflow-hidden">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <img src="{{ asset('images/logo-cvav.png') }}" alt="" class="img-fluid">
-                    </div>
-                    <div class="logo-text">
-                        <h4>
-                            Coeurs Vaillants Ames Vaillantes
-                        </h4>
-                        <h5>Dicosèse d'Abidjan</h5>
-                    </div>
-                </div>
-            </div>
+            {{ include('frontend/_header.html.twig') }}
             <div class="activite espace d-flex justify-content-center align-items-center flex-column">
                 <h5 class="inter-font-family">Je m'inscris à la fête diocésaine</h5>
                 <div class="call-action">

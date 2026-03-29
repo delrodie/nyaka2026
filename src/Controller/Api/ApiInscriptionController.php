@@ -73,7 +73,15 @@ class ApiInscriptionController extends AbstractController
         $reqParticipant = $data['participant'] ?? $request->request->get('participant');
         $reqMontant = $data['montant'] ?? $request->request->get('montant');
 
-        $taille = $reqTailleBenjamin ?? $reqTailleAine ?? $reqTailleAA ?? $reqTailleAP ?? "ND";
+        if ($reqTailleBenjamin) $taille = $reqTailleBenjamin;
+        elseif ($reqTailleAine) $taille = $reqTailleAine;
+        elseif ($reqTailleAA) $taille = $reqTailleAA;
+        elseif ($reqTailleAP) $taille = $reqTailleAP;
+        else $taille = "ND";
+
+        //$taille = $reqTailleBenjamin ?? $reqTailleAine ?? $reqTailleAA ?? $reqTailleAP ?? "ND";
+
+        dump($taille);
 
         $section = $emMain->getRepository(SectionMain::class)->findOneBy([
             'uuid' => $adhesion->getSection()->getId(),

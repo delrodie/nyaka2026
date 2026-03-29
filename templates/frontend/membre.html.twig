@@ -10,17 +10,7 @@
                  data-inscription-membre-grade-value="{{ adhesion.grade ? adhesion.grade.nom|lower : '' }}"
                  data-inscription-membre-tarifs-value="{{ tarifs|json_encode }}"
             >
-                <div class="overflow-hidden">
-                    <div class="logo sticky-top">
-                        <div class="logo-icon">
-                            <img src="{{ asset('images/logo-cvav.png') }}" alt="Logo CVAV" class="img-fluid">
-                        </div>
-                        <div class="logo-text">
-                            <h4>Coeurs Vaillants Ames Vaillantes</h4>
-                            <h5>Diocèse d'Abidjan</h5>
-                        </div>
-                    </div>
-                </div>
+                {{ include('frontend/_header.html.twig') }}
 
                 <div class="espace inter-font-family px-3 mt-5" style="">
                     <div class="text-start">

@@ -39,7 +39,7 @@ body {
 .logo-text h3, .logo-text h5 {
     color: gray !important; }
 .logo img {
-    max-width: 120px;
+    max-width: 80px;
     height: auto; }
 
 .activite {
@@ -139,6 +139,10 @@ body {
 
 .tuile.bloc-non-cvav{
     color: #00acef;
+}
+
+.offcanvas{
+    max-width: 70%;
 }
 
 

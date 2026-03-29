@@ -4,17 +4,7 @@
     <turbo-frame id="main-frame">
         {% block body %}
             <div class="max-w-sm mx-auto" data-controller="recherche">
-                <div class="overflow-hidden">
-                    <div class="logo">
-                        <div class="logo-icon">
-                            <img src="{{ asset('images/logo-cvav.png') }}" alt="Logo CVAV" class="img-fluid">
-                        </div>
-                        <div class="logo-text">
-                            <h4>Coeurs Vaillants Ames Vaillantes</h4>
-                            <h5>Diocèse d'Abidjan</h5>
-                        </div>
-                    </div>
-                </div>
+                {{ include('frontend/_header.html.twig') }}
 
                 <div class="espace inter-font-family px-3" style="margin-top: 100px;">
                     <div class="text-start">
@@ -43,7 +33,7 @@
                                     <div class="form-group">
                                         <div class="mb-3">
                                             <label for="IDUnique" class="form-label">ID Unique (adhésion)</label>
-                                            <input type="text" name="matricule" class="form-control form-control-lg rounded-0" id="IDUnique">
+                                            <input type="text" name="matricule" class="form-control form-control-lg rounded-0" id="IDUnique" autocomplete="off">
                                         </div>
                                     </div>
                                 </div>
