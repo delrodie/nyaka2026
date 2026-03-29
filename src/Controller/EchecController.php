@@ -27,20 +27,20 @@ class EchecController extends AbstractController
         $emMain = $this->doctrine->getManager('default');
 
         $participant = $emMain->getRepository(Participant::class)->findOneBy([
-            'slug' => $matricule
+            'matricule' => $matricule
         ]);
         return $this->render('frontend/wave_echec_paiement.html.twig',[
             'participant' => $participant,
         ]);
     }
 
-    #[Route('/{matricule}/recu', name: 'app_echec_recu', methods: ['GET'])]
-    public function recu($matricule): Response
+    #[Route('/{slug}/recu', name: 'app_echec_recu', methods: ['GET'])]
+    public function recu($slug): Response
     {
         $emMain = $this->doctrine->getManager('default');
 
         $participant = $emMain->getRepository(Participant::class)->findOneBy([
-            'slug' => $matricule
+            'slug' => $slug
         ]);
         return $this->render('frontend/recu_echec.html.twig',[
             'participant' => $participant,
