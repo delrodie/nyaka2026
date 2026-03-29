@@ -4,7 +4,6 @@
 
 {% block body %}
 
-    {{-- ── En-tête de la page web (masqué à l'impression) ── --}}
     <div class="overflow-hidden">
         <div class="logo">
             <div class="logo-icon">
@@ -24,12 +23,8 @@
             </div>
         </div>
 
-        {{-- ══════════════════════════════════════
-             REÇU — capturé pour PDF & impression
-             ══════════════════════════════════════ --}}
         <div id="recu-wrapper">
 
-            {{-- ▌ EN-TÊTE DU REÇU ──────────────────────────────── --}}
             <div class="r-header">
                 <div class="r-header-left">
                     <img id="recu-logo"
@@ -47,15 +42,12 @@
                 </div>
             </div>
 
-            {{-- ▌ BANDEAU TITRE ─────────────────────────────────── --}}
             <div class="r-banner">
                 <span>REÇU DE PARTICIPATION</span>
             </div>
 
-            {{-- ▌ CORPS DU REÇU ─────────────────────────────────── --}}
             <div class="r-body">
 
-                {{-- Bloc : Participant --}}
                 <div class="r-block">
                     <div class="r-block-title">
                         <span class="r-block-icon">👤</span> Participant
@@ -76,7 +68,6 @@
                     </table>
                 </div>
 
-                {{-- Bloc : Déclarant --}}
                 <div class="r-block">
                     <div class="r-block-title">
                         <span class="r-block-icon">📋</span> Déclarant
@@ -91,7 +82,6 @@
                     </table>
                 </div>
 
-                {{-- Bloc : Localisation --}}
                 <div class="r-block">
                     <div class="r-block-title">
                         <span class="r-block-icon">📍</span> Localisation
@@ -110,7 +100,6 @@
                     </table>
                 </div>
 
-                {{-- Bloc : Paiement --}}
                 <div class="r-payment">
                     <div class="r-payment-left">
                         <div class="r-payment-label">Montant réglé</div>
@@ -123,19 +112,17 @@
                     </div>
                 </div>
 
-            </div>{{-- fin r-body --}}
+            </div>
 
-            {{-- ▌ PIED DU REÇU ──────────────────────────────────── --}}
             <div class="r-footer">
                 <div class="r-footer-left">Document officiel — N'yâkâ Nansi 2026</div>
                 <div class="r-footer-right">Ce reçu atteste de votre inscription</div>
             </div>
 
-        </div>{{-- fin recu-wrapper --}}
+        </div>
 
     </div>
 
-    {{-- Boutons --}}
     <div class="text-center mt-4" id="action-buttons">
         <a href="{{ absolute_url(path('app_home')) }}" id="btnRetour" class="btn btn-outline-secondary btn-sm">
             ← Retour
