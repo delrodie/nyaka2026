@@ -4,6 +4,7 @@
 
 {% block body %}
 
+    {{-- ── En-tête de la page web (masqué à l'impression) ── --}}
     <div class="overflow-hidden">
         <div class="logo">
             <div class="logo-icon">
@@ -23,101 +24,124 @@
             </div>
         </div>
 
-
+        {{-- ══════════════════════════════════════
+             REÇU — capturé pour PDF & impression
+             ══════════════════════════════════════ --}}
         <div id="recu-wrapper">
 
-            <div class="recu-header">
-                <div class="recu-header-top">
+            {{-- ▌ EN-TÊTE DU REÇU ──────────────────────────────── --}}
+            <div class="r-header">
+                <div class="r-header-left">
                     <img id="recu-logo"
                          src="{{ absolute_url(asset('images/logo-cvav.png')) }}"
-                         alt="Logo CVAV">
-                    <div class="recu-header-text">
-                        <strong>N'yâkâ Nansi 2026</strong>
-                        <span>Je participe à cette édition</span>
-                    </div>
+                         alt="Logo CVAV"
+                         class="r-logo">
                 </div>
-                <div class="recu-titre-doc">REÇU DE PARTICIPATION</div>
+                <div class="r-header-center">
+                    <div class="r-event-name">N'YÂKÂ NANSI 2026</div>
+                    <div class="r-event-sub">Je participe à cette édition</div>
+                </div>
+                <div class="r-header-right">
+                    <div class="r-doc-label">REÇU</div>
+                    <div class="r-doc-id">{{ participant.matricule }}</div>
+                </div>
             </div>
 
-            <div class="recu-body">
-
-                <div class="recu-section">
-                    <div class="recu-section-title">Participant</div>
-                    <div class="recu-grid">
-                        <div class="recu-field recu-field--full">
-                            <span class="lbl">ID Unique</span>
-                            <span class="val val--id">{{ participant.matricule }}</span>
-                        </div>
-                        <div class="recu-field recu-field--full">
-                            <span class="lbl">Nom et prénoms</span>
-                            <span class="val">{{ participant.nomPrenoms }}</span>
-                        </div>
-                        <div class="recu-field">
-                            <span class="lbl">Genre</span>
-                            <span class="val">{{ participant.genre }}</span>
-                        </div>
-                        <div class="recu-field">
-                            <span class="lbl">Grade</span>
-                            <span class="val">{{ participant.grade.nom }}</span>
-                        </div>
-                        <div class="recu-field">
-                            <span class="lbl">Taille tee-shirt</span>
-                            <span class="val">{{ participant.taille }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="recu-section">
-                    <div class="recu-section-title">Déclarant</div>
-                    <div class="recu-grid">
-                        <div class="recu-field recu-field--full">
-                            <span class="lbl">Nom</span>
-                            <span class="val">{{ participant.declarantNom }}</span>
-                        </div>
-                        <div class="recu-field recu-field--full">
-                            <span class="lbl">Contact</span>
-                            <span class="val">{{ participant.declarantContact }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="recu-section">
-                    <div class="recu-section-title">Localisation</div>
-                    <div class="recu-grid">
-                        <div class="recu-field recu-field--full">
-                            <span class="lbl">Vicariat</span>
-                            <span class="val">{{ participant.section.doyenne.vicariat.nom }}</span>
-                        </div>
-                        <div class="recu-field">
-                            <span class="lbl">Doyenné</span>
-                            <span class="val">{{ participant.section.doyenne.nom }}</span>
-                        </div>
-                        <div class="recu-field">
-                            <span class="lbl">Section</span>
-                            <span class="val">{{ participant.section.nom }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="recu-paiement">
-                    <div class="recu-paiement-label">Montant payé</div>
-                    <div class="recu-paiement-montant">{{ participant.montant|number_format(0,'','.') }} FCFA</div>
-                </div>
-
-                <div class="recu-footer">
-                    Inscrit le {{ participant.waveWhenCreated|date('d-m-Y à H:i') }}
-                </div>
-
+            {{-- ▌ BANDEAU TITRE ─────────────────────────────────── --}}
+            <div class="r-banner">
+                <span>REÇU DE PARTICIPATION</span>
             </div>
 
-        </div>
+            {{-- ▌ CORPS DU REÇU ─────────────────────────────────── --}}
+            <div class="r-body">
+
+                {{-- Bloc : Participant --}}
+                <div class="r-block">
+                    <div class="r-block-title">
+                        <span class="r-block-icon">👤</span> Participant
+                    </div>
+                    <table class="r-table">
+                        <tr>
+                            <th>Nom et prénoms</th>
+                            <td><strong>{{ participant.nomPrenoms }}</strong></td>
+                            <th>Genre</th>
+                            <td>{{ participant.genre }}</td>
+                        </tr>
+                        <tr>
+                            <th>Grade</th>
+                            <td>{{ participant.grade.nom }}</td>
+                            <th>Taille tee-shirt</th>
+                            <td>{{ participant.taille }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                {{-- Bloc : Déclarant --}}
+                <div class="r-block">
+                    <div class="r-block-title">
+                        <span class="r-block-icon">📋</span> Déclarant
+                    </div>
+                    <table class="r-table">
+                        <tr>
+                            <th>Nom</th>
+                            <td><strong>{{ participant.declarantNom }}</strong></td>
+                            <th>Contact</th>
+                            <td>{{ participant.declarantContact }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                {{-- Bloc : Localisation --}}
+                <div class="r-block">
+                    <div class="r-block-title">
+                        <span class="r-block-icon">📍</span> Localisation
+                    </div>
+                    <table class="r-table">
+                        <tr>
+                            <th>Vicariat</th>
+                            <td colspan="3">{{ participant.section.doyenne.vicariat.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Doyenné</th>
+                            <td>{{ participant.section.doyenne.nom }}</td>
+                            <th>Section</th>
+                            <td>{{ participant.section.nom }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                {{-- Bloc : Paiement --}}
+                <div class="r-payment">
+                    <div class="r-payment-left">
+                        <div class="r-payment-label">Montant réglé</div>
+                        <div class="r-payment-date">
+                            Inscrit le {{ participant.waveWhenCreated|date('d/m/Y à H:i') }}
+                        </div>
+                    </div>
+                    <div class="r-payment-amount">
+                        {{ participant.montant|number_format(0,'','.') }}<span class="r-currency">FCFA</span>
+                    </div>
+                </div>
+
+            </div>{{-- fin r-body --}}
+
+            {{-- ▌ PIED DU REÇU ──────────────────────────────────── --}}
+            <div class="r-footer">
+                <div class="r-footer-left">Document officiel — N'yâkâ Nansi 2026</div>
+                <div class="r-footer-right">Ce reçu atteste de votre inscription</div>
+            </div>
+
+        </div>{{-- fin recu-wrapper --}}
 
     </div>
 
+    {{-- Boutons --}}
     <div class="text-center mt-4" id="action-buttons">
-        <a href="{{ absolute_url(path('app_home')) }}" id="btnRetour" class="btn btn-outline-secondary btn-sm">Retour</a>
-        <button id="print-button" class="btn btn-outline-primary btn-sm">Imprimer</button>
-        <button id="pdf-button" class="btn btn-outline-danger btn-sm">Exporter en PDF</button>
+        <a href="{{ absolute_url(path('app_home')) }}" id="btnRetour" class="btn btn-outline-secondary btn-sm">
+            ← Retour
+        </a>
+        <button id="print-button" class="btn btn-outline-primary btn-sm">🖨 Imprimer</button>
+        <button id="pdf-button"   class="btn btn-danger btn-sm">⬇ Exporter en PDF</button>
     </div>
 
     <div id="loader-overlay" style="display:none;">
@@ -130,159 +154,238 @@
     {{ parent() }}
     <style>
 
-        /* ───────────────────────────────────────────────────
-           STYLES COMMUNS (page web + capture PDF/impression)
-           ─────────────────────────────────────────────────── */
+        /* ════════════════════════════════════════════════════
+           VARIABLES
+           ════════════════════════════════════════════════════ */
+        :root {
+            --primary:   #1b5e34;
+            --primary-light: #e8f5ee;
+            --accent:    #f0a500;
+            --text:      #1a1a1a;
+            --muted:     #6b7280;
+            --border:    #d1d5db;
+            --radius:    6px;
+        }
 
-        /* Le wrapper est dimensionné exactement en A6 (397 × 559 px à 96 dpi)
-           pour que la capture html2canvas soit déjà à la bonne taille. */
+        /* ════════════════════════════════════════════════════
+           WRAPPER — pas de hauteur fixe ! Le contenu détermine la taille.
+           ════════════════════════════════════════════════════ */
         #recu-wrapper {
-            width: 397px;
-            min-height: 559px;
-            max-height: 559px;
-            overflow: hidden;
-            box-sizing: border-box;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            width: 100%;
+            max-width: 600px;
             margin: 0 auto;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
             font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 8.5pt;
-            color: #222;
+            color: var(--text);
+            font-size: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
 
-        /* En-tête du reçu caché sur la page web */
-        .recu-header {
-            display: none;
+        /* ── En-tête ── */
+        .r-header {
+            display: flex;
+            align-items: center;
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 16px;
+            gap: 12px;
         }
-
-        /* Corps du reçu */
-        .recu-body {
-            padding: 10px 14px 8px;
+        .r-logo {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 4px;
+            padding: 3px;
         }
-
-        /* Sections */
-        .recu-section {
-            margin-bottom: 7px;
+        .r-header-center {
+            flex: 1;
         }
-        .recu-section-title {
-            font-size: 7pt;
-            font-weight: 700;
+        .r-event-name {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+        }
+        .r-event-sub {
+            font-size: 10px;
+            opacity: 0.85;
+            font-style: italic;
+        }
+        .r-header-right {
+            text-align: right;
+        }
+        .r-doc-label {
+            font-size: 9px;
+            opacity: 0.75;
             text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .r-doc-id {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--accent);
             letter-spacing: 0.06em;
-            color: #888;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 2px;
-            margin-bottom: 4px;
         }
 
-        /* Grille des champs : 2 colonnes */
-        .recu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2px 10px;
+        /* ── Bandeau titre ── */
+        .r-banner {
+            background: var(--accent);
+            color: #fff;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 4px 0;
         }
-        .recu-field {
+
+        /* ── Corps ── */
+        .r-body {
+            padding: 12px 16px;
             display: flex;
             flex-direction: column;
-            line-height: 1.3;
-        }
-        .recu-field--full {
-            grid-column: 1 / -1;
-        }
-        .recu-field .lbl {
-            font-size: 6.5pt;
-            color: #888;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-        .recu-field .val {
-            font-size: 8.5pt;
-            color: #111;
-            font-weight: 500;
-        }
-        .recu-field .val--id {
-            font-weight: 700;
-            color: #1a6e2e;
-            font-size: 9pt;
-            letter-spacing: 0.06em;
+            gap: 10px;
         }
 
-        /* Paiement */
-        .recu-paiement {
+        /* ── Blocs de section ── */
+        .r-block {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .r-block-title {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 4px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .r-block-icon {
+            margin-right: 4px;
+        }
+
+        /* ── Tableau de données ── */
+        .r-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        .r-table tr {
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .r-table tr:last-child {
+            border-bottom: none;
+        }
+        .r-table th {
+            background: #fafafa;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 5px 10px;
+            white-space: nowrap;
+            width: 22%;
+            vertical-align: top;
+        }
+        .r-table td {
+            padding: 5px 10px;
+            color: var(--text);
+            vertical-align: top;
+        }
+
+        /* ── Paiement ── */
+        .r-payment {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f0f7f2;
-            border: 1px solid #b2d8bc;
+            background: var(--primary);
             border-radius: 4px;
-            padding: 5px 10px;
-            margin-top: 6px;
+            padding: 10px 14px;
+            color: #fff;
         }
-        .recu-paiement-label {
-            font-size: 7.5pt;
+        .r-payment-label {
+            font-size: 11px;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+        .r-payment-date {
+            font-size: 9px;
+            opacity: 0.7;
+            margin-top: 2px;
+            font-style: italic;
+        }
+        .r-payment-amount {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+        }
+        .r-currency {
+            font-size: 12px;
             font-weight: 600;
-            color: #444;
-        }
-        .recu-paiement-montant {
-            font-size: 12pt;
-            font-weight: 800;
-            color: #1a6e2e;
+            margin-left: 4px;
+            opacity: 0.85;
         }
 
-        /* Pied */
-        .recu-footer {
-            text-align: right;
-            font-size: 6.5pt;
-            color: #aaa;
-            margin-top: 6px;
+        /* ── Pied ── */
+        .r-footer {
+            display: flex;
+            justify-content: space-between;
+            background: #f7f7f7;
+            border-top: 1px solid var(--border);
+            padding: 6px 16px;
+            font-size: 9px;
+            color: var(--muted);
             font-style: italic;
         }
 
-        /* ───────────────────────────────────────────────────
-           @media print — Format A6 une seule page
-           ─────────────────────────────────────────────────── */
+        /* ════════════════════════════════════════════════════
+           @media print — Format A6, une seule page
+           ════════════════════════════════════════════════════ */
         @media print {
             @page {
                 size: A6 portrait;
-                margin: 5mm;
+                margin: 6mm;
             }
 
-            /* Masquer tout sauf le wrapper */
-            body > *:not(.container),
-            #action-buttons, .logo, .formulaire,
-            #loader-overlay, nav, header, footer {
-                display: none !important;
-            }
-            .container > *:not(#recu-wrapper) {
-                display: none !important;
+            /* Masquer tout sauf le reçu */
+            body * { visibility: hidden; }
+            #recu-wrapper, #recu-wrapper * { visibility: visible; }
+
+            #recu-wrapper {
+                position: absolute;
+                top: 0; left: 0;
+                width: 100% !important;
+                max-width: 100% !important;
+                border: none !important;
+                box-shadow: none !important;
+                font-size: 8px !important;
             }
 
-            /* Neutraliser les animations AOS */
+            .r-header { padding: 8px 10px; }
+            .r-logo   { height: 34px; }
+            .r-event-name { font-size: 10px; }
+            .r-doc-id     { font-size: 11px; }
+            .r-body       { padding: 8px 10px; gap: 6px; }
+            .r-table      { font-size: 8px; }
+            .r-table th   { font-size: 7px; padding: 3px 7px; }
+            .r-table td   { padding: 3px 7px; }
+            .r-payment    { padding: 6px 10px; }
+            .r-payment-amount { font-size: 16px; }
+            .r-block-title { font-size: 7px; padding: 3px 7px; }
+
             [data-aos] {
                 opacity: 1 !important;
                 transform: none !important;
                 transition: none !important;
-                animation: none !important;
-            }
-
-            /* ✅ Le wrapper occupe toute la page A6 */
-            #recu-wrapper {
-                width: 100% !important;
-                min-height: auto !important;
-                max-height: none !important;
-                border: none !important;
-                border-radius: 0 !important;
-                margin: 0 !important;
-                box-shadow: none !important;
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-
-            /* ✅ Afficher l'en-tête du reçu (logo + titre) */
-            .recu-header {
-                display: block !important;
             }
         }
     </style>
@@ -290,97 +393,108 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    {{-- html2canvas + jsPDF en direct (sans html2pdf) pour un contrôle total du scaling --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-            // ── Pré-charger le logo en base64 (contourne les restrictions CORS de html2canvas) ──
-            var logoBase64 = null;
-            var logoEl = document.getElementById('recu-logo');
-            if (logoEl) {
-                fetch(logoEl.src)
-                    .then(function (r) { return r.blob(); })
-                    .then(function (blob) {
-                        var reader = new FileReader();
-                        reader.onloadend = function () { logoBase64 = reader.result; };
-                        reader.readAsDataURL(blob);
-                    })
-                    .catch(function () { console.warn('Logo : conversion base64 échouée.'); });
-            }
+        /* ── Pré-charger le logo en base64 (contourne CORS html2canvas) ── */
+        var logoBase64 = null;
+        var logoEl = document.getElementById('recu-logo');
+        if (logoEl) {
+            fetch(logoEl.src)
+                .then(function (r) { return r.blob(); })
+                .then(function (b) {
+                    var rd = new FileReader();
+                    rd.onloadend = function () { logoBase64 = rd.result; };
+                    rd.readAsDataURL(b);
+                })
+                .catch(function () { console.warn('Logo : conversion base64 impossible.'); });
+        }
 
-            // ── Impression native ──
-            document.getElementById('print-button').addEventListener('click', function () {
-                window.print();
-            });
+        /* ── Impression native ── */
+        document.getElementById('print-button').addEventListener('click', function () {
+            window.print();
+        });
 
-            // ── Exportation PDF ──
-            document.getElementById('pdf-button').addEventListener('click', function () {
+        /* ── Exportation PDF ── */
+        document.getElementById('pdf-button').addEventListener('click', function () {
 
-                var element = document.getElementById('recu-wrapper');
-                var loader  = document.getElementById('loader-overlay');
-                if (loader) loader.style.display = 'flex';
+            var wrapper = document.getElementById('recu-wrapper');
+            var loader  = document.getElementById('loader-overlay');
+            if (loader) loader.style.display = 'flex';
 
-                var options = {
-                    // Marges réduites pour maximiser l'espace sur A6
-                    margin: [0.5, 0.5, 0.5, 0.5],
-                    filename: 'Recu_{{ participant.matricule }}.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: {
-                        // scale 1 car le wrapper est déjà dimensionné pour l'A6
-                        scale: 1,
-                        useCORS: true,
-                        allowTaint: false,
-                        logging: false,
-                        // Largeur de capture = largeur A6 en px (397)
-                        width: 397,
-                        windowWidth: 397,
-                        onclone: function (clonedDoc) {
+            // Dimensions A6 en mm
+            var A6_W = 105;
+            var A6_H = 148;
+            var MARGIN = 5; // mm
 
-                            // Injecter le logo en base64
-                            var cl = clonedDoc.getElementById('recu-logo');
-                            if (cl) { cl.src = logoBase64 || ''; }
+            var captureOptions = {
+                scale: 2,           // haute résolution
+                useCORS: true,
+                allowTaint: false,
+                backgroundColor: '#ffffff',
+                logging: false,
+                onclone: function (clonedDoc) {
+                    /* Injecter le logo base64 */
+                    var cl = clonedDoc.getElementById('recu-logo');
+                    if (cl && logoBase64) { cl.src = logoBase64; }
 
-                            // Afficher l'en-tête du reçu (logo + titre)
-                            clonedDoc.querySelectorAll('.recu-header').forEach(function (el) {
-                                el.style.display = 'block';
-                            });
-
-                            // Neutraliser AOS
-                            clonedDoc.querySelectorAll('[data-aos]').forEach(function (el) {
-                                el.removeAttribute('data-aos');
-                                el.style.opacity    = '1';
-                                el.style.transform  = 'none';
-                                el.style.transition = 'none';
-                            });
-
-                            // S'assurer que le wrapper est pleine largeur dans le clone
-                            var wrapper = clonedDoc.getElementById('recu-wrapper');
-                            if (wrapper) {
-                                wrapper.style.width    = '397px';
-                                wrapper.style.maxHeight = 'none';
-                                wrapper.style.overflow = 'visible';
-                                wrapper.style.border   = 'none';
-                            }
-                        }
-                    },
-                    // ✅ Format A6 : 10.5 × 14.8 cm
-                    jsPDF: { unit: 'cm', format: [10.5, 14.8], orientation: 'portrait' },
-                    // ✅ Forcer une seule page (pas de coupure automatique)
-                    pagebreak: { mode: 'avoid-all' }
-                };
-
-                html2pdf()
-                    .set(options)
-                    .from(element)
-                    .save()
-                    .then(function () {
-                        if (loader) loader.style.display = 'none';
-                    })
-                    .catch(function (err) {
-                        console.error('Erreur PDF :', err);
-                        if (loader) loader.style.display = 'none';
+                    /* Neutraliser AOS */
+                    clonedDoc.querySelectorAll('[data-aos]').forEach(function (el) {
+                        el.removeAttribute('data-aos');
+                        el.style.opacity    = '1';
+                        el.style.transform  = 'none';
+                        el.style.transition = 'none';
                     });
+
+                    /* Supprimer le box-shadow (inutile dans le PDF) */
+                    var w = clonedDoc.getElementById('recu-wrapper');
+                    if (w) { w.style.boxShadow = 'none'; }
+                }
+            };
+
+            html2canvas(wrapper, captureOptions).then(function (canvas) {
+
+                var { jsPDF } = window.jspdf;
+                var pdf = new jsPDF({ unit: 'mm', format: 'a6', orientation: 'portrait' });
+
+                /* Zone utile après marges */
+                var usableW = A6_W - MARGIN * 2;
+                var usableH = A6_H - MARGIN * 2;
+
+                /* Ratio canvas → mm */
+                var canvasW = canvas.width;
+                var canvasH = canvas.height;
+                var ratio   = canvasW / canvasH;
+
+                /* Calculer les dimensions en respectant les proportions */
+                var imgW = usableW;
+                var imgH = usableW / ratio;
+
+                /* Si trop haut, réduire à la hauteur utile */
+                if (imgH > usableH) {
+                    imgH = usableH;
+                    imgW = usableH * ratio;
+                }
+
+                /* Centrer horizontalement */
+                var offsetX = MARGIN + (usableW - imgW) / 2;
+                var offsetY = MARGIN;
+
+                var imgData = canvas.toDataURL('image/jpeg', 0.97);
+                pdf.addImage(imgData, 'JPEG', offsetX, offsetY, imgW, imgH);
+                pdf.save('Recu_{{ participant.matricule }}.pdf');
+
+                if (loader) loader.style.display = 'none';
+
+            }).catch(function (err) {
+                console.error('Erreur export PDF :', err);
+                if (loader) loader.style.display = 'none';
             });
         });
+
+    });
     </script>
 {% endblock %}
