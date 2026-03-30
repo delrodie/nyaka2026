@@ -56,7 +56,7 @@ class RecuController extends AbstractController
                 return $this->redirectToRoute('app_echec_recu');
             }
 
-            if ($participant && $participant->getWaveCheckoutStatus() !== 'complete'){
+            if ($participant->getWaveCheckoutStatus() !== 'complete'){
 
                 $wave = $this->wave($participant); //dd($wave);
                 if ($wave !== true) return $this->redirectToRoute('app_echec_recu',['slug' => $participant->getSlug()]);

@@ -83,7 +83,7 @@ export default class extends Controller {
                 amount: data.montant.toString(),
                 currency: "XOF",
                 error_url: window.location.origin + "/echec/" + data.matricule,
-                success_url: "https://www.cvav-diocesedabidjan.org/recu/" + data.matricule,
+                success_url: "https://nyaka.cvav-diocesedabidjan.org/recu/" + data.matricule,
             };
 
             const response = await axios.post('/api/wave/checkout', checkoutParams);
