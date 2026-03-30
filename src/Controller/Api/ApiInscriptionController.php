@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
 
 #[Route('/api/inscription')]
 class ApiInscriptionController extends AbstractController
@@ -55,6 +56,84 @@ class ApiInscriptionController extends AbstractController
         return $this->json($results);
     }
 
+    #[Route('/', name:'api_participant_invite', methods: ['POST'])]
+    public function invite(Request $request)
+    {
+        $emMain = $this->doctrine->getManager('default');
+
+        $data = json_decode($request->getContent(), true);
+        dump($data);
+
+        $reqSection = $data['nouveau[section]'];
+        $reqNomPrenoms = $data['nouveau[nomPrenoms]'];
+        $reqGenre = $data['nouveau[genre]'];
+        $reqAge = $data['nouveau[age]'];
+        $reqGrade = $data['nouveau[grade]'];
+        $reqTraitement = $data['nouveau[traitement]'];
+        $reqDeclarantNom = $data['nouveau[declarantNom]'];
+        $reqDeclarantContact = $data['nouveau[declarantContact]'];
+        $reqProfil = $data['profil'];
+        $reqTailleBenjamin = $data['tailleBenjamin'];
+        $reqTailleAine = $data['tailleAine'];
+        $reqTailleAA = $data['tailleAA'];
+        $reqTailleAP = $data['tailleAP'];
+        $reqMontant = $data['montant'];
+
+        if ($reqTailleBenjamin) $taille = $reqTailleBenjamin;
+        elseif ($reqTailleAine) $taille = $reqTailleAine;
+        elseif ($reqTailleAA) $taille = $reqTailleAA;
+        elseif ($reqTailleAP) $taille = $reqTailleAP;
+        else $taille = "ND";
+
+        $section = $emMain->getRepository(SectionMain::class)->findOneBy([
+            'id' => (int) $reqSection,
+        ]);
+
+        $grade = $emMain->getRepository(GradeMain::class)->findOneBy([
+            'id' => (int) $reqGrade,
+        ]);
+
+        try {
+            // Sauvegarde des données
+            $participant = new Participant();
+            $participant->setSection($section);
+            $participant->setGrade($grade);
+            $participant->setSlug($this->generateMatriculeAndSlug()['slug']);
+            $participant->setNomPrenoms($reqNomPrenoms);
+            $participant->setTaille($taille);
+            $participant->setTraitement($reqTraitement);
+            $participant->setDeclarantNom($reqDeclarantNom);
+            $participant->setDeclarantContact($reqDeclarantContact);
+            $participant->setMontant((int) $reqMontant);
+            $participant->setProfil($reqProfil);
+            $participant->setGenre($reqGenre);
+            $participant->setAge((int) $reqAge);
+            $participant->setMatricule($this->generateMatriculeAndSlug()['matricule']);
+
+            $emMain->persist($participant);
+            $emMain->flush();
+
+            return $this->json([
+                'success' => true,
+                'montant' => $participant->getMontant(),
+                'matricule' => $participant->getSlug(),
+                'id' => $participant->getId()
+            ]);
+        } catch (\Exception $e) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Erreur technique : ' . $e->getMessage()
+            ], 500);
+        }
+
+        return $this->json([
+            'success' => true,
+            'montant' => 100,
+            'matricule' => 000,
+            'id' => 1
+        ]);
+    }
+
     #[Route('/{id}', name: 'api_participant_save', methods: ['POST'])]
     public function save(Request $request, Adhesion $adhesion): JsonResponse
     {
@@ -81,7 +160,7 @@ class ApiInscriptionController extends AbstractController
 
         //$taille = $reqTailleBenjamin ?? $reqTailleAine ?? $reqTailleAA ?? $reqTailleAP ?? "ND";
 
-        dump($taille);
+        //dump($taille);
 
         $section = $emMain->getRepository(SectionMain::class)->findOneBy([
             'uuid' => $adhesion->getSection()->getId(),
@@ -141,6 +220,28 @@ class ApiInscriptionController extends AbstractController
             'grade' => $adhesion->getGrade() ? $adhesion->getGrade()->getNom() : null,
             'doyenneId' => $adhesion->getSection()?->getDoyenne()?->getId(),
             'doyenne' => $adhesion->getSection()?->getDoyenne()?->getNom(),
+        ];
+    }
+
+    protected function generateMatriculeAndSlug(): array
+    {
+        $emMain = $this->doctrine->getManager('default');
+
+        // Slug
+        $uuid = Uuid::v4();
+        $slug = $uuid->toRfc4122();
+
+        // Matricule
+        $prefix = "CVAV-INV-2026-";
+
+        do{
+            $random = str_pad((string)random_int(0, 99999), 5, '0', STR_PAD_LEFT);
+            $matricule = $prefix . $random;
+        } while($emMain->getRepository(Participant::class)->findOneBy(['matricule' => $matricule]));
+
+        return [
+            'matricule' => $matricule,
+            'slug' => $slug
         ];
     }
 }

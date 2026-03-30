@@ -20,6 +20,9 @@ export default class extends Controller {
         const formData = new FormData(form);
         const submitBtn = this.submitButtonTarget;
 
+        console.log('Soumission')
+        console.log(form)
+
         // 2. État de chargement
         const originalBtnText = submitBtn.innerHTML;
         submitBtn.disabled = true;
@@ -29,6 +32,7 @@ export default class extends Controller {
             // 3. Envoi des données au serveur Symfony (votre ParticipantController)
             // On transforme FormData en objet simple si votre API attend du JSON
             const data = Object.fromEntries(formData.entries());
+            console.log(form.action);
 
             const response = await fetch(form.action, {
                 method: 'POST',
@@ -43,7 +47,8 @@ export default class extends Controller {
 
             if (result.success) {
                 // 4. Appel à l'API de paiement Wave (comme dans votre exemple jQuery)
-                this.initierPaiementWave(result);
+                console.log(result)
+               this.initierPaiementWave(result);
             } else {
                 throw new Error(result.message || "Erreur lors de l'enregistrement");
             }
