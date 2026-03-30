@@ -13,58 +13,49 @@ export default class extends Controller {
     }
 
     async submitForm(event) {
+        // 1. Empêcher le rechargement de la page
         event.preventDefault();
 
         const form = event.currentTarget;
         const formData = new FormData(form);
         const submitBtn = this.submitButtonTarget;
 
+        console.log('Soumission')
+        console.log(form)
+
+        // 2. État de chargement
         const originalBtnText = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = "Traitement en cours...";
 
         try {
+            // 3. Envoi des données au serveur Symfony (votre ParticipantController)
+            // On transforme FormData en objet simple si votre API attend du JSON
             const data = Object.fromEntries(formData.entries());
+            console.log(form.action);
 
             const response = await fetch(form.action, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'  // ← Indique au serveur qu'on veut du JSON
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: JSON.stringify(data)
             });
 
-            // ─── Vérification du Content-Type AVANT de parser ───────────────────
-            const contentType = response.headers.get('Content-Type') ?? '';
-
-            if (!contentType.includes('application/json')) {
-                // Le serveur a renvoyé du HTML (page d'erreur Symfony en prod)
-                const rawText = await response.text();
-                // On extrait le message utile si possible, sinon on affiche le statut HTTP
-                throw new Error(
-                    `Le serveur a renvoyé une erreur HTTP ${response.status}. `
-                    + `Vérifiez les logs Symfony (var/log/prod.log). `
-                    + `Réponse brute : ${rawText.substring(0, 200)}...`
-                );
-            }
-
             const result = await response.json();
 
-            if (!response.ok) {
-                // JSON reçu mais statut HTTP 4xx/5xx
-                throw new Error(result.message || `Erreur serveur (${response.status})`);
-            }
-
             if (result.success) {
-                await this.initierPaiementWave(result);
+                // 4. Appel à l'API de paiement Wave (comme dans votre exemple jQuery)
+                console.log(result)
+               this.initierPaiementWave(result);
             } else {
                 throw new Error(result.message || "Erreur lors de l'enregistrement");
             }
 
         } catch (error) {
             console.error("Erreur:", error);
+            // Utilisation de SweetAlert2 si disponible dans votre projet
             if (window.Swal) {
                 Swal.fire({
                     icon: 'error',
@@ -86,7 +77,9 @@ export default class extends Controller {
                 success_url: "https://www.cvav-diocesedabidjan.org/recu/" + data.matricule,
             };
 
+            // Appel à votre endpoint qui génère l'URL Wave
             const response = await axios.post('/api/wave/checkout', checkoutParams);
+
             const content = JSON.parse(response.data.content);
             if (content.wave_launch_url) {
                 window.location.href = content.wave_launch_url;
