@@ -16,6 +16,51 @@ class ParticipantRepository extends ServiceEntityRepository
         parent::__construct($registry, Participant::class);
     }
 
+    public function getAllByStatusCompletedOrNot($status = null, $order = null)
+    {
+        $query = $this->globalSelect();
+        if ($status){
+            $query->where('p.waveCheckoutStatus = :status');
+        }
+        else{
+            $query->where('p.waveCheckoutStatus <> :status');
+        }
+
+        if ($order) $query->orderBy('p.waveWhenCompleted', $order);
+
+        return $query->setParameter('status', 'complete')
+            ->getQuery()->getResult() ;
+
+
+    }
+
+    public function getAllByVicariat($vicariat, $status = null): mixed
+    {
+        $query = $this->globalSelect()
+            ->where('v.id = :vicariat')
+            ->setParameter('vicariat', $vicariat);
+
+        if ($status){
+            $query->andWhere('p.waveCheckoutStatus = :status')
+                ->setParameter('status', $status);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    private function globalSelect()
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('s','d','v','g')
+            ->leftJoin('p.section', 's')
+            ->leftJoin('s.doyenne', 'd')
+            ->leftJoin('d.vicariat', 'v')
+            ->leftJoin('p.grade', 'g')
+            ;
+    }
+
+
+
     //    /**
     //     * @return Participant[] Returns an array of Participant objects
     //     */

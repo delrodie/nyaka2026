@@ -1,0 +1,133 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block content_title 'Liste des participants par vicariats ' %}
+
+{% block main %}
+
+    <div class="container-fluid">
+        <section>
+            <div class="row">
+                <div class="col-4 offset-3 my-3 ">
+                    {{ form_start(form) }}
+                    <div class="row g-2">
+                        <div class="col-10">{{ form_widget(form.vicariat) }}</div>
+                        <div class="col-2">
+                            <button class="btn btn-outline-secondary rounded-0">Valider</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+                <div class="col-12">
+                    {#                    <h3 class="title">Liste globale des participants</h3>#}
+                    <div class="table-responsive mt-5">
+                        <table id="listes" class="table  border table-striped table-bordered display text-nowrap">
+                            <thead>
+                            <tr>
+                                <th class="text-center text-uppercase">#</th>
+                                <th class="text-center text-uppercase">Doyenne</th>
+                                <th class="text-center text-uppercase">Section</th>
+                                <th class="text-center text-uppercase">Matricule</th>
+                                <th class="text-center text-uppercase">Nom</th>
+                                <th class="text-center text-uppercase">Genre</th>
+                                <th class="text-center text-uppercase">Déclarant</th>
+                                <th class="text-center text-uppercase">Contact</th>
+                                <th class="text-center text-uppercase">Grade</th>
+                                <th class="text-center text-uppercase">Taille</th>
+                                <th class="text-center text-uppercase">Traitement</th>
+                                <th class="text-center text-uppercase">Profil</th>
+                                <th class="text-center text-uppercase">Montant</th>
+                                <th class="text-center text-uppercase">Date</th>
+                                <th class="text-center text-uppercase">Recu</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for aspirant in participants %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td class="">{{ aspirant.section.doyenne.nom }}</td>
+                                    <td class="">{{ aspirant.section.nom }}</td>
+                                    <td class="text-center">{{ aspirant.matricule }}</td>
+                                    <td class="">
+                                        <a href="#">
+                                            {{ aspirant.nomPrenoms }}
+                                        </a>
+                                    </td>
+                                    <td class="text-center">{{ aspirant.genre }}</td>
+                                    <td>{{ aspirant.declarantNom }}</td>
+                                    <td class="text-center">{{ aspirant.declarantContact }}</td>
+                                    <td class="text-center">{{ aspirant.grade.nom }}</td>
+                                    <td class="text-center">{{ aspirant.taille }}</td>
+                                    <td class="text-center">{{ aspirant.traitement }}</td>
+                                    <td class="text-center">{{ aspirant.profil }}</td>
+                                    <td class="text-center">{{ aspirant.montant }}</td>
+                                    <td class="text-center">{{ aspirant.waveWhenCreated|date('Y-m-d H:i:s') }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ path('app_recu_show', {'matricule': aspirant.slug}) }}" target="_blank">
+                                            <i class="fa-solid fa-file"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="15">Aucun enregistrement</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+
+{% endblock %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/symfony/ux-autocomplete/autocomplete.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.6/css/buttons.dataTables.css">
+    <style>
+        body{
+            background: white !important;
+            font-size: .9rem;
+        }
+        a{
+            text-decoration: none !important;
+        }
+    </style>
+{% endblock %}
+
+{% block head_javascript %}
+    {{ importmap('app') }}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/buttons.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var table = $('#listes');
+            table.DataTable({
+                layout: {
+                    topStart: {
+                        buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5', 'print']
+                    }
+                },
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/2.3.7/i18n/fr-FR.json'
+                }
+            })
+        });
+
+    </script>
+{% endblock %}

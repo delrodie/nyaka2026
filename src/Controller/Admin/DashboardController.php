@@ -45,6 +45,9 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkTo(ActiviteCrudController::class, 'Activités', 'fa-solid fa-cubes');
         yield MenuItem::linkTo(ParticipationCrudController::class, 'Participations', 'fa-solid fa-hand-holding-dollar');
         yield MenuItem::subMenu('Participants', 'fa-solid fa-users')->setSubItems([
+            MenuItem::linkToRoute("Liste des participants", 'fa-solid fa-list', 'admin_participants_liste'),
+            MenuItem::linkToRoute("Contentieux", 'fa-solid fa-ban', 'admin_participants_nonfinalisees'),
+            MenuItem::linkToRoute("Par Vicariats", 'fa-solid fa-church', 'admin_filtre_choix', ['filtre' => 'vicariat']),
             MenuItem::linkTo(ParticipantCrudController::class, 'Confirmés', 'fa-solid fa-list'),
             MenuItem::linkTo(Participant2CrudController::class, 'Litiges', 'fa-solid fa-ban'),
         ]);

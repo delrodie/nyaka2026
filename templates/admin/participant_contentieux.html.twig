@@ -1,0 +1,121 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block content_title 'Liste des operations non finalisées ' %}
+
+{% block main %}
+
+    <div class="container-fluid">
+        <section>
+            <div class="row">
+                <div class="col-12">
+                    {#                    <h3 class="title">Liste globale des participants</h3>#}
+                    <div class="table-responsive mt-5">
+                        <table id="listes" class="table  border table-striped table-bordered display text-nowrap">
+                            <thead>
+                            <tr>
+                                <th class="text-center text-uppercase">#</th>
+                                <th class="text-center text-uppercase">Vicariat</th>
+                                <th class="text-center text-uppercase">Doyenne</th>
+                                <th class="text-center text-uppercase">Section</th>
+                                <th class="text-center text-uppercase">Matricule</th>
+                                <th class="text-center text-uppercase">Nom</th>
+                                <th class="text-center text-uppercase">Genre</th>
+                                <th class="text-center text-uppercase">Déclarant</th>
+                                <th class="text-center text-uppercase">Contact</th>
+                                <th class="text-center text-uppercase">Grade</th>
+                                <th class="text-center text-uppercase">Taille</th>
+                                <th class="text-center text-uppercase">Traitement</th>
+                                <th class="text-center text-uppercase">Profil</th>
+                                <th class="text-center text-uppercase">Montant</th>
+                                <th class="text-center text-uppercase">Statut</th>
+                                <th class="text-center text-uppercase">Verification</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for aspirant in participants %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td class="">{{ aspirant.section.doyenne.vicariat.nom }}</td>
+                                    <td class="">{{ aspirant.section.doyenne.nom }}</td>
+                                    <td class="">{{ aspirant.section.nom }}</td>
+                                    <td class="text-center">{{ aspirant.matricule }}</td>
+                                    <td class="">
+                                        <a href="#">
+                                            {{ aspirant.nomPrenoms }}
+                                        </a>
+                                    </td>
+                                    <td class="text-center">{{ aspirant.genre }}</td>
+                                    <td>{{ aspirant.declarantNom }}</td>
+                                    <td class="text-center">{{ aspirant.declarantContact }}</td>
+                                    <td class="text-center">{{ aspirant.grade.nom }}</td>
+                                    <td class="text-center">{{ aspirant.taille }}</td>
+                                    <td class="text-center">{{ aspirant.traitement }}</td>
+                                    <td class="text-center">{{ aspirant.profil }}</td>
+                                    <td class="text-center">{{ aspirant.montant }}</td>
+                                    <td class="text-center">
+                                        {% set statut = aspirant.wavePaymentStatus %}
+                                        {% if statut == 'succeeded' %} <span class="badge text-bg-success">Payé</span>
+                                        {% elseif statut == 'processing' %} <span class="badge text-bg-primary">Traitement encours</span>
+                                        {% elseif statut == 'cancelled' %} <span class="badge text-bg-danger">Annulé</span>
+                                        {% else %} <span class="badge text-bg-black">NULL</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{ path('app_recu_show', {'matricule': aspirant.slug}) }}" target="_blank">
+                                            <i class="fa-solid fa-file"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="15">Aucun enregistrement</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+
+{% endblock %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.6/css/buttons.dataTables.css">
+{% endblock %}
+
+{% block head_javascript %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/buttons.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.6/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var table = $('#listes');
+            table.DataTable({
+                layout: {
+                    topStart: {
+                        buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5', 'print']
+                    }
+                },
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/2.3.7/i18n/fr-FR.json'
+                }
+            })
+        });
+
+    </script>
+{% endblock %}
