@@ -35,8 +35,27 @@ class NouveauType extends AbstractType
                     'Masculin' => 'M'
                 ]
             ])
-            ->add('age', IntegerType::class,[
+            ->add('age', ChoiceType::class,[
                 'attr' =>['class' => 'form-control rounded-0'],
+                'choices' => [
+                    '-- Sélectionnez --' => '',
+                    1 => 1,
+                    2 => 2,
+                    3 => 3,
+                    4 => 4,
+                    5 => 5,
+                    6 => 6,
+                    7 => 7,
+                    8 => 8,
+                    9 => 9,
+                    10 => 10,
+                    11 => 11,
+                    12 => 12,
+                    13 => 13,
+                    14 => 14,
+                    15 => 15,
+                ],
+//                'autocomplete' => true
             ])
             ->add('declarantNom', TextType::class,[
                 'attr' => ['class' => 'form-control rounded-0', 'autocomplete'=>'off'],
@@ -73,7 +92,7 @@ class NouveauType extends AbstractType
                 'label' => "Êtes-vous sur traitement médical?   <sup class='text-danger'>*</sup>"
             ])
             ->add('section', SectionAutocompleteField::class)
-            ->add('grade', GradeAutocompleteField::class)
+//            ->add('grade', GradeAutocompleteField::class)
         ;
     }
 

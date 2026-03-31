@@ -55,7 +55,7 @@
                     <table class="r-table">
                         <tr>
                             <th>Nom et prénoms</th>
-                            <td colspan="3"><strong>{{ participant.nomPrenoms }}</strong></td>
+                            <td colspan="3"><strong>{{ participant.nomPrenoms|upper }}</strong></td>
 
                         </tr>
                         <tr>
@@ -66,7 +66,7 @@
                         </tr>
                         <tr>
                             <th>Grade</th>
-                            <td>{{ participant.grade.nom }}</td>
+                            <td>{{ participant.grade ? participant.grade.nom : 'INVITE' }}</td>
                             <th>Taille tee-shirt</th>
                             <td>{{ participant.taille }}</td>
                         </tr>
@@ -80,7 +80,7 @@
                     <table class="r-table">
                         <tr>
                             <th>Nom</th>
-                            <td><strong>{{ participant.declarantNom }}</strong></td>
+                            <td><strong>{{ participant.declarantNom|title }}</strong></td>
                             <th>Contact</th>
                             <td>{{ participant.declarantContact }}</td>
                         </tr>

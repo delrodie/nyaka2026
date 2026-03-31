@@ -36,7 +36,7 @@ class InscriptionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = json_decode($request->getContent(), true);
-            dump($data);
+           // dump($data);
 
             return $this->json('data');
         }

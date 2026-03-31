@@ -62,45 +62,46 @@ class _ApiInscriptionController extends AbstractController
         $emMain = $this->doctrine->getManager('default');
 
         $data = json_decode($request->getContent(), true);
-        dump($data);
+        //dump($data);
 
         $reqSection = $data['nouveau[section]'];
         $reqNomPrenoms = $data['nouveau[nomPrenoms]'];
         $reqGenre = $data['nouveau[genre]'];
         $reqAge = $data['nouveau[age]'];
-        $reqGrade = $data['nouveau[grade]'];
+        //$reqGrade = $data['nouveau[grade]'];
         $reqTraitement = $data['nouveau[traitement]'];
         $reqDeclarantNom = $data['nouveau[declarantNom]'];
         $reqDeclarantContact = $data['nouveau[declarantContact]'];
         $reqProfil = $data['profil'];
-        $reqTailleBenjamin = $data['tailleBenjamin'];
-        $reqTailleAine = $data['tailleAine'];
-        $reqTailleAA = $data['tailleAA'];
-        $reqTailleAP = $data['tailleAP'];
+//        $reqTailleBenjamin = $data['tailleBenjamin'];
+//        $reqTailleAine = $data['tailleAine'];
+//        $reqTailleAA = $data['tailleAA'];
+//        $reqTailleAP = $data['tailleAP'];
+        $reqTaille = $data['taille'];
         $reqMontant = $data['montant'];
 
-        if ($reqTailleBenjamin) $taille = $reqTailleBenjamin;
-        elseif ($reqTailleAine) $taille = $reqTailleAine;
-        elseif ($reqTailleAA) $taille = $reqTailleAA;
-        elseif ($reqTailleAP) $taille = $reqTailleAP;
-        else $taille = "ND";
+//        if ($reqTailleBenjamin) $taille = $reqTailleBenjamin;
+//        elseif ($reqTailleAine) $taille = $reqTailleAine;
+//        elseif ($reqTailleAA) $taille = $reqTailleAA;
+//        elseif ($reqTailleAP) $taille = $reqTailleAP;
+//        else $taille = "ND";
 
         $section = $emMain->getRepository(SectionMain::class)->findOneBy([
             'id' => (int) $reqSection,
         ]);
 
-        $grade = $emMain->getRepository(GradeMain::class)->findOneBy([
-            'id' => (int) $reqGrade,
-        ]);
+//        $grade = $emMain->getRepository(GradeMain::class)->findOneBy([
+//            'id' => (int) $reqGrade,
+//        ]);
 
         try {
             // Sauvegarde des données
             $participant = new Participant();
             $participant->setSection($section);
-            $participant->setGrade($grade);
+//            $participant->setGrade($grade);
             $participant->setSlug($this->generateMatriculeAndSlug()['slug']);
             $participant->setNomPrenoms($reqNomPrenoms);
-            $participant->setTaille($taille);
+            $participant->setTaille($reqTaille);
             $participant->setTraitement($reqTraitement);
             $participant->setDeclarantNom($reqDeclarantNom);
             $participant->setDeclarantContact($reqDeclarantContact);
