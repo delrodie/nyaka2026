@@ -48,6 +48,9 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToRoute("Liste des participants", 'fa-solid fa-list', 'admin_participants_liste'),
             MenuItem::linkToRoute("Contentieux", 'fa-solid fa-ban', 'admin_participants_nonfinalisees'),
             MenuItem::linkToRoute("Par Vicariats", 'fa-solid fa-church', 'admin_filtre_choix', ['filtre' => 'vicariat']),
+            MenuItem::linkToRoute("Par Doyennes", 'fa-solid fa-people-roof', 'admin_filtre_choix', ['filtre' => 'doyenne']),
+            MenuItem::linkToRoute("Par Sections", 'fa-solid fa-people-group', 'admin_filtre_choix', ['filtre' => 'section']),
+            MenuItem::linkToRoute("Par Grades", 'fa-solid fa-user-graduate', 'admin_filtre_choix', ['filtre' => 'grade']),
             MenuItem::linkTo(ParticipantCrudController::class, 'Confirmés', 'fa-solid fa-list'),
             MenuItem::linkTo(Participant2CrudController::class, 'Litiges', 'fa-solid fa-ban'),
         ]);

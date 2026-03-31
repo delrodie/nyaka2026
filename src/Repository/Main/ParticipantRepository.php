@@ -19,19 +19,31 @@ class ParticipantRepository extends ServiceEntityRepository
     public function getAllByStatusCompletedOrNot($status = null, $order = null)
     {
         $query = $this->globalSelect();
-        if ($status){
+        if ($status) {
             $query->where('p.waveCheckoutStatus = :status');
-        }
-        else{
+        } else {
             $query->where('p.waveCheckoutStatus <> :status');
         }
 
         if ($order) $query->orderBy('p.waveWhenCompleted', $order);
 
         return $query->setParameter('status', 'complete')
-            ->getQuery()->getResult() ;
+            ->getQuery()->getResult();
 
 
+    }
+
+    public function getAllByGrade($grade, string $status)
+    {
+        $query = $this->globalSelect()
+            ->where('g.id = :grade')
+            ->setParameter('grade', $grade);
+
+        if ($status){
+            $query->andWhere('p.waveCheckoutStatus = :status')
+                ->setParameter('status', $status);
+        }
+        return $query->getQuery()->getResult();
     }
 
     public function getAllByVicariat($vicariat, $status = null): mixed
@@ -40,7 +52,7 @@ class ParticipantRepository extends ServiceEntityRepository
             ->where('v.id = :vicariat')
             ->setParameter('vicariat', $vicariat);
 
-        if ($status){
+        if ($status) {
             $query->andWhere('p.waveCheckoutStatus = :status')
                 ->setParameter('status', $status);
         }
@@ -48,15 +60,42 @@ class ParticipantRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function getAllByDoyenne($doyenne, $status = null): mixed
+    {
+        $query = $this->globalSelect()
+            ->where('d.id = :doyenne')
+            ->setParameter('doyenne', $doyenne);
+
+        if ($status) {
+            $query->andWhere('p.waveCheckoutStatus = :status')
+                ->setParameter('status', $status);
+        }
+        return $query->getQuery()->getResult();
+    }
+
+
+    public function getAllBySection($section, $status = null): mixed
+    {
+        $query = $this->globalSelect()
+            ->where('s.id = :section')
+            ->setParameter('section', $section);
+
+        if ($status) {
+            $query->andWhere('p.waveCheckoutStatus = :status')
+                ->setParameter('status', $status);
+        }
+        return $query->getQuery()->getResult();
+    }
+
+
     private function globalSelect()
     {
         return $this->createQueryBuilder('p')
-            ->addSelect('s','d','v','g')
+            ->addSelect('s', 'd', 'v', 'g')
             ->leftJoin('p.section', 's')
             ->leftJoin('s.doyenne', 'd')
             ->leftJoin('d.vicariat', 'v')
-            ->leftJoin('p.grade', 'g')
-            ;
+            ->leftJoin('p.grade', 'g');
     }
 
 
@@ -85,4 +124,5 @@ class ParticipantRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
 }

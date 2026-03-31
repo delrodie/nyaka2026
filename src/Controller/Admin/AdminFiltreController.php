@@ -6,7 +6,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Main\Doyenne;
 use App\Entity\Main\Participant;
+use App\Entity\Main\Section;
 use App\Entity\Main\Vicariat;
+use App\Form\SearchByDoyenneType;
+use App\Form\SearchByGradeType;
+use App\Form\SearchBySectionType;
 use App\Form\SearchByVicariatType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,9 +48,28 @@ class AdminFiltreController extends AbstractController
         ]);
     }
 
-    private function gradeFiltre(Request $request)
+    private function gradeFiltre(Request $request): Response
     {
+        $emMain = $this->doctrine->getManager('default');
+        $form = $this->createForm(SearchByGradeType::class, new Participant());
+        $form->handleRequest($request);
 
+        $participants = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $vicariat = $form->get('grade')->getData(); // ← objet Vicariat
+
+            $participants = $emMain->getRepository(Participant::class)
+                ->getAllByGrade($vicariat->getId(), 'complete'); // ← adapter selon votre entité
+        } else {
+            $participants = $emMain->getRepository(Participant::class)
+                ->getAllByStatusCompletedOrNot('complete');
+        }
+
+        return $this->render('admin/participant_filtre_grades.html.twig',[
+            'participants' => $participants,
+            'form' => $form
+        ]);
     }
 
     private function vicariatFiltre(Request $request): Response
@@ -73,11 +96,51 @@ class AdminFiltreController extends AbstractController
         ]);
     }
 
-    private function doyenneFiltre(Request $request)
+    private function doyenneFiltre(Request $request): Response
     {
+        $emMain = $this->doctrine->getManager('default');
+        $form = $this->createForm(SearchByDoyenneType::class, new Section());
+        $form->handleRequest($request);
+
+        $participants = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $doyenne = $form->get('doyenne')->getData(); // ← objet Vicariat
+
+            $participants = $emMain->getRepository(Participant::class)
+                ->getAllByDoyenne($doyenne->getId(), 'complete'); // ← adapter selon votre entité
+        } else {
+            $participants = $emMain->getRepository(Participant::class)
+                ->getAllByStatusCompletedOrNot('complete');
+        }
+
+        return $this->render('admin/participant_filtre_doyennes.html.twig',[
+            'participants' => $participants,
+            'form' => $form
+        ]);
     }
 
-    private function sectionFiltre(Request $request)
+    private function sectionFiltre(Request $request): Response
     {
+        $emMain = $this->doctrine->getManager('default');
+        $form = $this->createForm(SearchBySectionType::class, new Participant());
+        $form->handleRequest($request);
+
+        $participants = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $section = $form->get('section')->getData(); // ← objet Vicariat
+
+            $participants = $emMain->getRepository(Participant::class)
+                ->getAllBySection($section->getId(), 'complete'); // ← adapter selon votre entité
+        } else {
+            $participants = $emMain->getRepository(Participant::class)
+                ->getAllByStatusCompletedOrNot('complete');
+        }
+
+        return $this->render('admin/participant_filtre_sections.html.twig',[
+            'participants' => $participants,
+            'form' => $form
+        ]);
     }
 }
