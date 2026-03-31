@@ -2,22 +2,35 @@
 
 namespace App\Controller\Admin;
 
+use App\Services\StatistiquesServices;
+use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 #[AdminDashboard(routePath: '/backend', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+    public function __construct(
+        private ManagerRegistry $doctrine,
+        private StatistiquesServices $statistiquesServices,
+        private ChartBuilderInterface $chartJs
+    )
+    {
+    }
+
     public function index(): Response
     {
+        $emMain = $this->doctrine->getManager('default');
 //        return parent::index();
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
-        // return $this->redirectToRoute('admin_user_index');
+//         return $this->redirectToRoute('app_home');
 
         // Option 2. You can make your dashboard redirect to different pages depending on the user
         //
@@ -28,7 +41,11 @@ class DashboardController extends AbstractDashboardController
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
-         return $this->render('admin/dashboard.html.twig');
+         return $this->render('admin/dashboard.html.twig',[
+             'grades' => $this->statistiquesServices->getAspirantByAllGrade('complete'),
+             'finance' => $this->statistiquesServices->getFinanceTotal(),
+             'chartJs' => $this->chartJsBuilder()
+         ]);
     }
 
     public function configureDashboard(): Dashboard
@@ -77,5 +94,42 @@ class DashboardController extends AbstractDashboardController
         }
 
 
+    }
+
+    private function chartJsBuilder(): Chart
+    {
+        $chart = $this->chartJs->createChart(Chart::TYPE_BAR);
+
+        $listes = $this->statistiquesServices->getAspirantsByVicariat('complete');
+        $label=[]; $data=[]; $i=0; //dd($listes);
+        foreach ($listes as $liste)
+        { //dd();
+            $label[]= $liste['vicariat']->getNom();
+            $data[]= count($liste['aspirants']);
+        }
+        //dd($label);
+
+        $chart->setData([
+            'labels' => $label,
+            'datasets' => [
+                [
+                    'label' => 'Participants par Vicariats',
+                    'backgroundColor' => 'rgb(3, 142, 197)',
+                    'borderColor' => 'rgb(3, 142, 197)',
+                    'data' => $data,
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestedMin' => 0,
+                    'suggestedMax' => 100,
+                ],
+            ],
+        ]);
+
+        return $chart;
     }
 }

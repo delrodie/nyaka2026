@@ -1,5 +1,57 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
+{% block content_title 'Tableau de bord ' %}
+
 {% block main %}
-    Tableau de bord
+    <div class="row mt-5">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 h-100 p-3">
+                <h5 class="card-title">Grades</h5>
+                <div class="text-muted">Statistiques des participants par Grade</div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mt-3">
+                    {% for grade in grades %}
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-header fst-italic">{{ grade.grade.nom }}</div>
+                                <div class="card-body text-center">
+                                    <h2>{{ grade.participants|length }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100 p-3">
+                <h5 class="card-title">Finances</h5>
+                <div class="text-muted">Montant total</div>
+                <div class="d-flex justify-content-center align-items-center align-content-center h-100 mt-3">
+                    <h1 style="color: var(--text-bleu-secondaire)">{{ finance|number_format(0,'','.') }} <sup class="text-muted">FCFA</sup> </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-5 mb-5">
+        {{ render_chart(chartJs) }}
+    </div>
+    <div class="mt-5" style="margin-top: 100px;">.</div>
 {% endblock main %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style>
+        body{
+            background: white !important;
+            font-size: .9rem !important;
+        }
+        a{
+            text-decoration: none !important;
+        }
+    </style>
+{% endblock %}
+
+{% block head_javascript %}
+    {{ importmap('app') }}
+    {{ parent() }}
+{% endblock %}

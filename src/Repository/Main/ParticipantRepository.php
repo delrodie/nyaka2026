@@ -87,6 +87,15 @@ class ParticipantRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function getMontantTotal()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('SUM(p.montant)')
+            ->where('p.waveCheckoutStatus = :status')
+            ->setParameter('status', 'complete')
+            ->getQuery()->getSingleScalarResult();
+    }
+
 
     private function globalSelect()
     {
