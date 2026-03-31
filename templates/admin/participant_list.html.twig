@@ -47,7 +47,7 @@
                                     <td class="text-center">{{ aspirant.genre }}</td>
                                     <td>{{ aspirant.declarantNom }}</td>
                                     <td class="text-center">{{ aspirant.declarantContact }}</td>
-                                    <td class="text-center">{{ aspirant.grade.nom }}</td>
+                                    <td class="text-center">{{ aspirant.grade ? aspirant.grade.nom : 'INVITE' }}</td>
                                     <td class="text-center">{{ aspirant.taille }}</td>
                                     <td class="text-center">{{ aspirant.traitement }}</td>
                                     <td class="text-center">{{ aspirant.profil }}</td>
