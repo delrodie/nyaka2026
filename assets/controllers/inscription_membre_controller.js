@@ -48,7 +48,7 @@ export default class extends Controller {
         } else {
             if (grade.includes("benjamin") || grade.includes("cadet")) {
                 document.getElementById("selectBenjamin").classList.remove("d-none")
-            } else if (grade.includes("ainé") || grade.includes("meneur")) {
+            } else if (grade.includes("aîné") || grade.includes("ainé") || grade.includes("meneur")) {
                 document.getElementById("selectAine").classList.remove("d-none")
             } else if (grade.includes("aa") || grade.includes("ac")) {
                 document.getElementById("selectAA").classList.remove("d-none")

@@ -47,6 +47,12 @@
             "config/routes/easyadmin.yaml"
         ]
     },
+    "php-flasher/flasher-sweetalert-symfony": {
+        "version": "v2.6.1"
+    },
+    "php-flasher/flasher-symfony": {
+        "version": "v2.6.1"
+    },
     "phpunit/phpunit": {
         "version": "13.0",
         "recipe": {
