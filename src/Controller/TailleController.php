@@ -52,7 +52,7 @@ class TailleController extends AbstractController
         //dd($participant);
 
         // Redirection selon la taille
-        if ($participant->getTaille() !== '') {
+        if ($participant->getTaille() !== 'ND') {
             return $this->redirectToRoute('app_recu_show', [
                 'matricule' => $participant->getSlug(),
             ]);
