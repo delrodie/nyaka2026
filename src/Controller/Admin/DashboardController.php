@@ -75,15 +75,19 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkTo(Participant2CrudController::class, 'Litiges', 'fa-solid fa-ban')
                         ->setPermission('ROLE_SUPER_ADMIN'),
         ]);
+
+        yield MenuItem::section();
+        yield MenuItem::section('GESTION');
+
         if ($this->isGranted('ROLE_SUPER_ADMIN'))
         {
-            yield MenuItem::section();
-            yield MenuItem::section('GESTION');
             yield MenuItem::linkTo(VicariatCrudController::class, 'Vicariats', 'fa-solid fa-church');
             yield MenuItem::linkTo(DoyenneCrudController::class, 'Doyennes', 'fa-solid fa-people-roof');
             yield MenuItem::linkTo(SectionCrudController::class, 'Sections', 'fa-solid fa-people-group');
             yield MenuItem::linkTo(GradeCrudController::class, 'Grades', 'fa-solid fa-user-graduate');
         }
+
+        yield MenuItem::linkTo(ClotureCrudController::class, 'Cloture', 'fa-solid fa-clipboard');
 
         if ($this->isGranted('ROLE_ADMIN'))
         {

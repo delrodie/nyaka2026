@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block turbo_frame %}
+    <turbo-frame id="main-frame">
+        {% block body %}
+            <div class="max-w-sm mx-auto" style="height: 100vh;">
+                {{ include('frontend/_header.html.twig') }}
+
+                <div class="activite">
+                    <div class="activite-icon" data-aos="zoom-in-up" data-aos-easing="ease-in-back" data-aos-duration="3000">
+                        <img src="{{ absolute_url(asset('images/sad.png')) }}" alt="" class="img-fluid">
+                    </div>
+                    <div class="activite-text" data-aos="zoom-out-down" data-aos-easing="ease-in-back" data-aos-duration="3000">
+                        <h3 class="titre">Oups!!</h3>
+                        <h6 class="theme">
+                            La plateforme est fermée, les isncriptions sont closes
+
+                        </h6>
+
+                    </div>
+                    {#        <div class="call-action" style="margin-top: 80px;">#}
+                    {#            <a href="{{ absolute_url(path('app_participation_index')) }}" class="btnAction">#}
+                    {#                Je reprends#}
+                    {#            </a>#}
+                    {#        </div>#}
+                </div>
+            </div>
+        {% endblock %}
+    </turbo-frame>
+{% endblock %}
